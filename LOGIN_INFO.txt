@@ -1,0 +1,37 @@
+===========================================
+THÔNG TIN ĐĂNG NHẬP ADMIN MẶC ĐỊNH
+===========================================
+
+Email: admin@example.com
+Password: admin123
+
+===========================================
+HƯỚNG DẪN SỬ DỤNG
+===========================================
+
+1. Đảm bảo API server đang chạy:
+   cd ApiApp
+   npm start
+
+2. Mở file index.html trong trình duyệt
+
+3. Đăng nhập với thông tin ở trên
+
+4. Sau khi đăng nhập, bạn có thể:
+   - Quản lý khách hàng
+   - Quản lý người bán
+   - Theo dõi hoạt động và báo cáo
+
+===========================================
+TẠO LẠI ADMIN USER (nếu cần)
+===========================================
+
+Chạy lệnh sau trong thư mục ApiApp:
+npm run create-admin
+
+hoặc
+
+node scripts/createDefaultAdmin.js
+
+===========================================
+

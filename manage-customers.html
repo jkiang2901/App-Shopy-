@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Quản lý khách hàng</h1>
+            <div class="nav-actions">
+                <button onclick="window.location.href='dashboard.html'" class="btn btn-secondary">🏠 Về Dashboard</button>
+                <button onclick="showAddUserDialog()" class="btn btn-primary">➕ Thêm khách hàng</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm theo tên hoặc email..." onkeyup="loadCustomers()">
+        </div>
+        
+        <div class="table-container">
+            <table id="customersTable">
+                <thead>
+                    <tr>
+                        <th>Tên</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="customersTableBody">
+                    <tr><td colspan="6" class="loading">Đang tải...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Add/Edit User Dialog -->
+    <div id="userDialog" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUserDialog()">&times;</span>
+            <h2 id="dialogTitle">Thêm khách hàng</h2>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label for="userName">Họ và tên *</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email *</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">Mật khẩu <span id="passwordHint">*</span></label>
+                    <input type="password" id="userPassword">
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">Số điện thoại</label>
+                    <input type="tel" id="userPhone">
+                </div>
+                <div class="form-group">
+                    <label for="userAddress">Địa chỉ</label>
+                    <textarea id="userAddress" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="userStatus" value="true" checked> Hoạt động</label>
+                        <label><input type="radio" name="userStatus" value="false"> Không hoạt động</label>
+                    </div>
+                </div>
+                <div id="formError" class="error-message"></div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeUserDialog()" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+    <script>
+        checkAuth();
+        loadCustomers();
+        
+        let editingUser = null;
+        
+        async function loadCustomers() {
+            const search = document.getElementById('searchInput').value;
+            const token = localStorage.getItem('adminToken');
+            const params = new URLSearchParams({ role: 'customer' });
+            if (search) params.append('search', search);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/users?${params}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                const customers = await response.json();
+                displayCustomers(customers);
+            } catch (error) {
+                document.getElementById('customersTableBody').innerHTML = 
+                    '<tr><td colspan="6" class="error">Lỗi tải dữ liệu: ' + error.message + '</td></tr>';
+            }
+        }
+        
+        function displayCustomers(customers) {
+            const tbody = document.getElementById('customersTableBody');
+            if (customers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty">Không có dữ liệu</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = customers.map(customer => `
+                <tr>
+                    <td>${customer.name || ''}</td>
+                    <td>${customer.email || ''}</td>
+                    <td>${customer.phone || ''}</td>
+                    <td>${customer.address || ''}</td>
+                    <td><span class="badge ${customer.isActive ? 'badge-success' : 'badge-danger'}">${customer.isActive ? 'Hoạt động' : 'Không hoạt động'}</span></td>
+                    <td>
+                        <button onclick="editUser('${customer._id}')" class="btn btn-sm btn-primary">Sửa</button>
+                        <button onclick="deleteUser('${customer._id}', '${customer.name}')" class="btn btn-sm btn-danger">Xóa</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        async function editUser(userId) {
+            const token = localStorage.getItem('adminToken');
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/users/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const user = await response.json();
+                
+                editingUser = user;
+                document.getElementById('dialogTitle').textContent = 'Sửa khách hàng';
+                document.getElementById('userId').value = user._id;
+                document.getElementById('userName').value = user.name || '';
+                document.getElementById('userEmail').value = user.email || '';
+                document.getElementById('userEmail').disabled = true;
+                document.getElementById('userPassword').value = '';
+                document.getElementById('userPassword').required = false;
+                document.getElementById('passwordHint').textContent = '(để trống nếu không đổi)';
+                document.getElementById('userPhone').value = user.phone || '';
+                document.getElementById('userAddress').value = user.address || '';
+                document.querySelector(`input[name="userStatus"][value="${user.isActive}"]`).checked = true;
+                showModal('userDialog');
+            } catch (error) {
+                alert('Lỗi tải thông tin: ' + error.message);
+            }
+        }
+        
+        document.getElementById('userForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('adminToken');
+            const formData = {
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                phone: document.getElementById('userPhone').value,
+                address: document.getElementById('userAddress').value,
+                role: 'customer',
+                isActive: document.querySelector('input[name="userStatus"]:checked').value === 'true'
+            };
+            
+            const password = document.getElementById('userPassword').value;
+            if (password) formData.password = password;
+            
+            const userId = document.getElementById('userId').value;
+            const url = userId ? `${API_BASE_URL}/api/users/${userId}` : `${API_BASE_URL}/api/users`;
+            const method = userId ? 'PUT' : 'POST';
+            
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                const data = await response.json();
+                if (response.ok) {
+                    closeUserDialog();
+                    showSuccess(userId ? 'Đã cập nhật khách hàng thành công!' : 'Đã thêm khách hàng thành công!', document.querySelector('.container'));
+                    loadCustomers();
+                } else {
+                    document.getElementById('formError').textContent = data.error || 'Có lỗi xảy ra';
+                    document.getElementById('formError').style.display = 'block';
+                }
+            } catch (error) {
+                document.getElementById('formError').textContent = 'Lỗi: ' + error.message;
+                document.getElementById('formError').style.display = 'block';
+            }
+        });
+        
+        async function deleteUser(userId, userName) {
+            if (!confirm(`Bạn có chắc muốn xóa khách hàng "${userName}"?`)) return;
+            
+            const token = localStorage.getItem('adminToken');
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                if (response.ok) {
+                    showSuccess('Đã xóa khách hàng thành công!', document.querySelector('.container'));
+                    loadCustomers();
+                } else {
+                    const data = await response.json();
+                    alert('Lỗi: ' + (data.error || 'Không thể xóa'));
+                }
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
+        }
+        
+        function closeUserDialog() {
+            hideModal('userDialog');
+            document.getElementById('formError').style.display = 'none';
+        }
+        
+        function showAddUserDialog() {
+            editingUser = null;
+            document.getElementById('dialogTitle').textContent = 'Thêm khách hàng';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            document.getElementById('userEmail').disabled = false;
+            document.getElementById('passwordHint').textContent = '*';
+            document.getElementById('userPassword').required = true;
+            document.querySelector('input[name="userStatus"][value="true"]').checked = true;
+            showModal('userDialog');
+        }
+    </script>
+</body>
+</html>
+

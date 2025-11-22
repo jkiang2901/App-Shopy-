@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quản trị hệ thống</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Quản trị hệ thống</h1>
+            <div class="nav-user">
+                <span id="userName"></span>
+                <button onclick="logout()" class="btn btn-secondary">🚪 Đăng xuất</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="dashboard-card" onclick="window.location.href='manage-customers.html'">
+                <div class="card-icon">👥</div>
+                <h2>Quản lý khách hàng</h2>
+                <p>Xem, thêm, sửa, xóa thông tin khách hàng trong hệ thống</p>
+                <div style="margin-top: 15px; font-size: 12px; color: #667eea; font-weight: 600;">
+                    → Nhấp để xem chi tiết
+                </div>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='manage-sellers.html'">
+                <div class="card-icon">🏪</div>
+                <h2>Quản lý người bán</h2>
+                <p>Xem, thêm, sửa, xóa thông tin người bán trong hệ thống</p>
+                <div style="margin-top: 15px; font-size: 12px; color: #667eea; font-weight: 600;">
+                    → Nhấp để xem chi tiết
+                </div>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='track-activities.html'">
+                <div class="card-icon">📊</div>
+                <h2>Theo dõi hoạt động</h2>
+                <p>Xem và xử lý các báo cáo từ khách hàng và người bán</p>
+                <div style="margin-top: 15px; font-size: 12px; color: #667eea; font-weight: 600;">
+                    → Nhấp để xem chi tiết
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+    <script>
+        checkAuth();
+        const user = JSON.parse(localStorage.getItem('adminUser') || '{}');
+        document.getElementById('userName').textContent = user.name || 'Admin';
+    </script>
+</body>
+</html>
+

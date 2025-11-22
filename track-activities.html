@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi hoạt động</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Theo dõi hoạt động</h1>
+            <div class="nav-actions">
+                <button onclick="window.location.href='dashboard.html'" class="btn btn-secondary">🏠 Về Dashboard</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Lọc theo trạng thái:</label>
+                <select id="statusFilter" onchange="loadReports()">
+                    <option value="">Tất cả</option>
+                    <option value="pending">Đang chờ</option>
+                    <option value="reviewing">Đang xem xét</option>
+                    <option value="resolved">Đã xử lý</option>
+                    <option value="dismissed">Đã từ chối</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Lọc theo loại:</label>
+                <select id="typeFilter" onchange="loadReports()">
+                    <option value="">Tất cả</option>
+                    <option value="seller">Báo cáo người bán</option>
+                    <option value="buyer">Báo cáo người mua</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="reportsTable">
+                <thead>
+                    <tr>
+                        <th>Người báo cáo</th>
+                        <th>Người bị báo cáo</th>
+                        <th>Loại</th>
+                        <th>Lý do</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th>Ghi chú Admin</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="reportsTableBody">
+                    <tr><td colspan="8" class="loading">Đang tải...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- View Report Details Dialog -->
+    <div id="viewDialog" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close" onclick="closeViewDialog()">&times;</span>
+            <h2>📋 Chi tiết báo cáo</h2>
+            <div id="reportDetails" style="margin-top: 20px;">
+                <!-- Details will be loaded here -->
+            </div>
+            <div class="form-actions" style="margin-top: 25px;">
+                <button type="button" onclick="closeViewDialog()" class="btn btn-secondary">Đóng</button>
+                <button type="button" onclick="openUpdateDialog()" class="btn btn-primary">✏️ Cập nhật</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Status Dialog -->
+    <div id="statusDialog" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeStatusDialog()">&times;</span>
+            <h2>✏️ Cập nhật trạng thái báo cáo</h2>
+            <form id="statusForm">
+                <input type="hidden" id="reportId">
+                <div class="form-group">
+                    <label for="reportStatus">Trạng thái *</label>
+                    <select id="reportStatus" required>
+                        <option value="pending">⏳ Đang chờ</option>
+                        <option value="reviewing">🔍 Đang xem xét</option>
+                        <option value="resolved">✅ Đã xử lý</option>
+                        <option value="dismissed">❌ Đã từ chối</option>
+                    </select>
+                    <small style="color: #64748b; display: block; margin-top: 5px;">
+                        Chọn trạng thái mới cho báo cáo này
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="adminNotes">📝 Ghi chú của Admin</label>
+                    <textarea id="adminNotes" rows="5" placeholder="Nhập ghi chú về việc xử lý báo cáo này..."></textarea>
+                </div>
+                <div id="formError" class="error-message"></div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeStatusDialog()" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">💾 Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+    <script>
+        checkAuth();
+        loadReports();
+        
+        let currentReport = null;
+
+        async function loadReports() {
+            const status = document.getElementById('statusFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            const token = localStorage.getItem('adminToken');
+            const params = new URLSearchParams();
+            if (status) params.append('status', status);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/reports?${params}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                let reports = await response.json();
+                
+                // Filter by type on client side (since API doesn't support it)
+                if (type) {
+                    reports = reports.filter(r => r.reportType === type);
+                }
+                
+                displayReports(reports);
+            } catch (error) {
+                document.getElementById('reportsTableBody').innerHTML = 
+                    '<tr><td colspan="8" class="error">Lỗi tải dữ liệu: ' + error.message + '</td></tr>';
+            }
+        }
+        
+        function displayReports(reports) {
+            const tbody = document.getElementById('reportsTableBody');
+            if (reports.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty">Không có dữ liệu</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = reports.map(report => {
+                const reporter = report.reporterId || {};
+                const reported = report.reportedUserId || {};
+                const createdAt = new Date(report.createdAt).toLocaleString('vi-VN');
+                const updatedAt = report.updatedAt ? new Date(report.updatedAt).toLocaleString('vi-VN') : createdAt;
+                const statusClass = {
+                    'pending': 'badge-warning',
+                    'reviewing': 'badge-info',
+                    'resolved': 'badge-success',
+                    'dismissed': 'badge-danger'
+                }[report.status] || 'badge-secondary';
+                
+                const adminNotesDisplay = report.adminNotes 
+                    ? `<span style="color: #667eea; font-weight: 500;">${report.adminNotes.substring(0, 50)}${report.adminNotes.length > 50 ? '...' : ''}</span>`
+                    : '<span style="color: #94a3b8;">Chưa có ghi chú</span>';
+                
+                return `
+                    <tr>
+                        <td>
+                            <strong>${reporter.name || 'N/A'}</strong><br>
+                            <small style="color: #64748b;">${reporter.email || 'N/A'}</small><br>
+                            <span class="badge badge-secondary" style="font-size: 10px;">${reporter.role || ''}</span>
+                        </td>
+                        <td>
+                            <strong>${reported.name || 'N/A'}</strong><br>
+                            <small style="color: #64748b;">${reported.email || 'N/A'}</small><br>
+                            <span class="badge badge-secondary" style="font-size: 10px;">${reported.role || ''}</span>
+                        </td>
+                        <td>
+                            <span class="badge ${report.reportType === 'seller' ? 'badge-info' : 'badge-warning'}">
+                                ${report.reportType === 'seller' ? '📦 Người bán' : '🛒 Người mua'}
+                            </span>
+                        </td>
+                        <td>
+                            <strong>${report.reason || 'N/A'}</strong>
+                            ${report.description ? `<br><small style="color: #64748b; font-size: 12px;">${report.description.substring(0, 60)}${report.description.length > 60 ? '...' : ''}</small>` : ''}
+                        </td>
+                        <td><span class="badge ${statusClass}">${getStatusText(report.status)}</span></td>
+                        <td>
+                            <small>${createdAt}</small>
+                            ${updatedAt !== createdAt ? `<br><small style="color: #94a3b8;">Cập nhật: ${updatedAt}</small>` : ''}
+                        </td>
+                        <td>${adminNotesDisplay}</td>
+                        <td>
+                            <button onclick="viewReportDetails('${report._id}')" class="btn btn-sm btn-secondary" style="margin-bottom: 5px; width: 100%;">👁️ Xem chi tiết</button>
+                            <button onclick="updateReportStatus('${report._id}', '${report.status}')" class="btn btn-sm btn-primary" style="width: 100%;">✏️ Cập nhật</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': '⏳ Đang chờ',
+                'reviewing': '🔍 Đang xem xét',
+                'resolved': '✅ Đã xử lý',
+                'dismissed': '❌ Đã từ chối'
+            };
+            return statusMap[status] || status;
+        }
+        
+        async function viewReportDetails(reportId) {
+            const token = localStorage.getItem('adminToken');
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/reports/${reportId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                const report = await response.json();
+                currentReport = report;
+                displayReportDetails(report);
+                showModal('viewDialog');
+            } catch (error) {
+                alert('Lỗi tải chi tiết: ' + error.message);
+            }
+        }
+        
+        function displayReportDetails(report) {
+            const reporter = report.reporterId || {};
+            const reported = report.reportedUserId || {};
+            const createdAt = new Date(report.createdAt).toLocaleString('vi-VN');
+            const updatedAt = report.updatedAt ? new Date(report.updatedAt).toLocaleString('vi-VN') : createdAt;
+            
+            const detailsHTML = `
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px; color: #1e293b;">📋 Thông tin báo cáo</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Trạng thái:</strong>
+                            <div><span class="badge ${getStatusClass(report.status)}">${getStatusText(report.status)}</span></div>
+                        </div>
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Loại báo cáo:</strong>
+                            <div><span class="badge ${report.reportType === 'seller' ? 'badge-info' : 'badge-warning'}">
+                                ${report.reportType === 'seller' ? '📦 Báo cáo người bán' : '🛒 Báo cáo người mua'}
+                            </span></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #64748b; font-size: 12px;">Lý do:</strong>
+                        <div style="margin-top: 5px; font-weight: 600; color: #1e293b;">${report.reason || 'N/A'}</div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #64748b; font-size: 12px;">Mô tả chi tiết:</strong>
+                        <div style="margin-top: 5px; padding: 10px; background: white; border-radius: 8px; color: #475569;">
+                            ${report.description || 'Không có mô tả'}
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px; color: #1e293b;">👤 Người báo cáo</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Tên:</strong>
+                            <div style="font-weight: 600;">${reporter.name || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Email:</strong>
+                            <div>${reporter.email || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Vai trò:</strong>
+                            <div><span class="badge badge-secondary">${reporter.role || 'N/A'}</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px; color: #1e293b;">🎯 Người bị báo cáo</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Tên:</strong>
+                            <div style="font-weight: 600;">${reported.name || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Email:</strong>
+                            <div>${reported.email || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <strong style="color: #64748b; font-size: 12px;">Vai trò:</strong>
+                            <div><span class="badge badge-secondary">${reported.role || 'N/A'}</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                ${report.adminNotes ? `
+                <div style="background: #fef3c7; padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
+                    <h3 style="margin-bottom: 10px; color: #1e293b;">📝 Ghi chú của Admin</h3>
+                    <div style="color: #92400e; white-space: pre-wrap;">${report.adminNotes}</div>
+                </div>
+                ` : ''}
+                
+                <div style="background: #f1f5f9; padding: 15px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <strong style="color: #64748b; font-size: 12px;">Ngày tạo:</strong>
+                        <div style="font-size: 14px;">${createdAt}</div>
+                    </div>
+                    <div>
+                        <strong style="color: #64748b; font-size: 12px;">Ngày cập nhật:</strong>
+                        <div style="font-size: 14px;">${updatedAt}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('reportDetails').innerHTML = detailsHTML;
+        }
+        
+        function getStatusClass(status) {
+            const statusClass = {
+                'pending': 'badge-warning',
+                'reviewing': 'badge-info',
+                'resolved': 'badge-success',
+                'dismissed': 'badge-danger'
+            };
+            return statusClass[status] || 'badge-secondary';
+        }
+        
+        function openUpdateDialog() {
+            if (currentReport) {
+                closeViewDialog();
+                updateReportStatus(currentReport._id, currentReport.status);
+            }
+        }
+        
+        async function updateReportStatus(reportId, currentStatus) {
+            // If we don't have currentReport, fetch it
+            if (!currentReport || currentReport._id !== reportId) {
+                const token = localStorage.getItem('adminToken');
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/reports/${reportId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (response.ok) {
+                        currentReport = await response.json();
+                    }
+                } catch (error) {
+                    console.error('Error fetching report:', error);
+                }
+            }
+            
+            if (currentReport) {
+                document.getElementById('reportId').value = reportId;
+                document.getElementById('reportStatus').value = currentStatus || currentReport.status;
+                document.getElementById('adminNotes').value = currentReport.adminNotes || '';
+                showModal('statusDialog');
+            }
+        }
+        
+        function closeViewDialog() {
+            hideModal('viewDialog');
+            currentReport = null;
+        }
+        
+        document.getElementById('statusForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('adminToken');
+            const reportId = document.getElementById('reportId').value;
+            const status = document.getElementById('reportStatus').value;
+            const adminNotes = document.getElementById('adminNotes').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/reports/${reportId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status, adminNotes })
+                });
+                
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                const data = await response.json();
+                if (response.ok) {
+                    closeStatusDialog();
+                    currentReport = null; // Reset current report
+                    showSuccess('✅ Đã cập nhật trạng thái báo cáo thành công!', document.querySelector('.container'));
+                    loadReports();
+                } else {
+                    document.getElementById('formError').textContent = data.error || 'Có lỗi xảy ra';
+                    document.getElementById('formError').style.display = 'block';
+                }
+            } catch (error) {
+                document.getElementById('formError').textContent = 'Lỗi: ' + error.message;
+                document.getElementById('formError').style.display = 'block';
+            }
+        });
+        
+        function closeStatusDialog() {
+            hideModal('statusDialog');
+            document.getElementById('formError').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+
