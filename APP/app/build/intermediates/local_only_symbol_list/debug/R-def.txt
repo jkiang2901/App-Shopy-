@@ -1,0 +1,37 @@
+R_DEF: Internal format may change without notice
+local
+color accent_orange
+color accent_orange_dark
+color background_light
+color black
+color primary_blue
+color primary_blue_dark
+color text_primary
+color text_secondary
+color white
+drawable button_background
+drawable error_image
+drawable placeholder_image
+drawable search_background
+id addToCartButton
+id appBarLayout
+id productDescription
+id productImage
+id productName
+id productPrice
+id progressBar
+id recyclerViewProducts
+id searchView
+id toolbar
+layout activity_main
+layout item_product
+string add_to_cart
+string app_name
+string cart
+string error_network
+string loading
+string no_products
+string product_price
+string product_title
+string search
+style Theme.BanHangApp

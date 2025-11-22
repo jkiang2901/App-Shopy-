@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.example.banhangapp-merged_res-34:/layout_activity_main.xml.flat",
+        "source": "com.example.banhangapp-main-36:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.banhangapp-merged_res-34:/layout_item_product.xml.flat",
+        "source": "com.example.banhangapp-main-36:/layout/item_product.xml"
+    },
+    {
+        "merged": "com.example.banhangapp-merged_res-34:/drawable_error_image.xml.flat",
+        "source": "com.example.banhangapp-main-36:/drawable/error_image.xml"
+    },
+    {
+        "merged": "com.example.banhangapp-merged_res-34:/drawable_search_background.xml.flat",
+        "source": "com.example.banhangapp-main-36:/drawable/search_background.xml"
+    },
+    {
+        "merged": "com.example.banhangapp-merged_res-34:/drawable_placeholder_image.xml.flat",
+        "source": "com.example.banhangapp-main-36:/drawable/placeholder_image.xml"
+    },
+    {
+        "merged": "com.example.banhangapp-merged_res-34:/drawable_button_background.xml.flat",
+        "source": "com.example.banhangapp-main-36:/drawable/button_background.xml"
+    }
+]

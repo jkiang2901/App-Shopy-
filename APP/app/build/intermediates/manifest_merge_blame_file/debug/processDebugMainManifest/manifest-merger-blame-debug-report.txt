@@ -1,0 +1,219 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.banhangapp"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:5:5-67
+11-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:6:5-79
+12-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:6:22-76
+13
+14    <permission
+14-->[androidx.core:core:1.9.0] C:\Users\hoang\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+15        android:name="com.example.banhangapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+15-->[androidx.core:core:1.9.0] C:\Users\hoang\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+16        android:protectionLevel="signature" />
+16-->[androidx.core:core:1.9.0] C:\Users\hoang\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+17
+18    <uses-permission android:name="com.example.banhangapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+18-->[androidx.core:core:1.9.0] C:\Users\hoang\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+18-->[androidx.core:core:1.9.0] C:\Users\hoang\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+19
+20    <application
+20-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:8:5-67:19
+21        android:allowBackup="true"
+21-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:9:9-35
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.9.0] C:\Users\hoang\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+23        android:debuggable="true"
+24        android:extractNativeLibs="false"
+25        android:icon="@android:drawable/ic_menu_gallery"
+25-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:10:9-57
+26        android:label="@string/app_name"
+26-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:11:9-41
+27        android:roundIcon="@android:drawable/ic_menu_gallery"
+27-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:12:9-62
+28        android:supportsRtl="true"
+28-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:13:9-35
+29        android:testOnly="true"
+30        android:theme="@style/Theme.BanHangApp"
+30-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:14:9-48
+31        android:usesCleartextTraffic="true" >
+31-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:15:9-44
+32        <activity
+32-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:17:9-24:20
+33            android:name="com.example.banhangapp.LoginActivity"
+33-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:18:13-42
+34            android:exported="true" >
+34-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:19:13-36
+35            <intent-filter>
+35-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:20:13-23:29
+36                <action android:name="android.intent.action.MAIN" />
+36-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:21:17-69
+36-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:21:25-66
+37
+38                <category android:name="android.intent.category.LAUNCHER" />
+38-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:22:17-77
+38-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:22:27-74
+39            </intent-filter>
+40        </activity>
+41        <activity
+41-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:25:9-27:40
+42            android:name="com.example.banhangapp.RegisterActivity"
+42-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:26:13-45
+43            android:exported="false" />
+43-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:27:13-37
+44        <activity
+44-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:28:9-30:40
+45            android:name="com.example.banhangapp.MainActivity"
+45-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:29:13-41
+46            android:exported="false" />
+46-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:30:13-37
+47        <activity
+47-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:31:9-33:40
+48            android:name="com.example.banhangapp.CustomerProductListActivity"
+48-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:32:13-56
+49            android:exported="false" />
+49-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:33:13-37
+50        <activity
+50-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:34:9-36:40
+51            android:name="com.example.banhangapp.CustomerProductDetailActivity"
+51-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:35:13-58
+52            android:exported="false" />
+52-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:36:13-37
+53        <activity
+53-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:37:9-39:40
+54            android:name="com.example.banhangapp.CustomerCartActivity"
+54-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:38:13-49
+55            android:exported="false" />
+55-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:39:13-37
+56        <activity
+56-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:40:9-42:40
+57            android:name="com.example.banhangapp.CustomerCheckoutActivity"
+57-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:41:13-53
+58            android:exported="false" />
+58-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:42:13-37
+59        <activity
+59-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:43:9-45:40
+60            android:name="com.example.banhangapp.CustomerOrderHistoryActivity"
+60-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:44:13-57
+61            android:exported="false" />
+61-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:45:13-37
+62        <activity
+62-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:46:9-48:40
+63            android:name="com.example.banhangapp.CustomerProfileActivity"
+63-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:47:13-52
+64            android:exported="false" />
+64-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:48:13-37
+65        <activity
+65-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:49:9-51:40
+66            android:name="com.example.banhangapp.SellerDashboardActivity"
+66-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:50:13-52
+67            android:exported="false" />
+67-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:51:13-37
+68        <activity
+68-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:52:9-54:40
+69            android:name="com.example.banhangapp.SellerManageCustomersActivity"
+69-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:53:13-58
+70            android:exported="false" />
+70-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:54:13-37
+71        <activity
+71-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:55:9-57:40
+72            android:name="com.example.banhangapp.SellerManageInventoryActivity"
+72-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:56:13-58
+73            android:exported="false" />
+73-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:57:13-37
+74        <activity
+74-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:58:9-60:40
+75            android:name="com.example.banhangapp.SellerManagePromotionsActivity"
+75-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:59:13-59
+76            android:exported="false" />
+76-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:60:13-37
+77        <activity
+77-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:61:9-63:40
+78            android:name="com.example.banhangapp.SellerStatisticsActivity"
+78-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:62:13-53
+79            android:exported="false" />
+79-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:63:13-37
+80        <activity
+80-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:64:9-66:40
+81            android:name="com.example.banhangapp.SellerTrackSalesActivity"
+81-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:65:13-53
+82            android:exported="false" />
+82-->C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\AndroidManifest.xml:66:13-37
+83
+84        <provider
+84-->[androidx.emoji2:emoji2:1.2.0] C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+85            android:name="androidx.startup.InitializationProvider"
+85-->[androidx.emoji2:emoji2:1.2.0] C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+86            android:authorities="com.example.banhangapp.androidx-startup"
+86-->[androidx.emoji2:emoji2:1.2.0] C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+87            android:exported="false" >
+87-->[androidx.emoji2:emoji2:1.2.0] C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+88            <meta-data
+88-->[androidx.emoji2:emoji2:1.2.0] C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+89                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+89-->[androidx.emoji2:emoji2:1.2.0] C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+90                android:value="androidx.startup" />
+90-->[androidx.emoji2:emoji2:1.2.0] C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+91            <meta-data
+91-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\hoang\.gradle\caches\8.13\transforms\ee8d56694396f80ee606648a730eff7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+92                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+92-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\hoang\.gradle\caches\8.13\transforms\ee8d56694396f80ee606648a730eff7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+93                android:value="androidx.startup" />
+93-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\hoang\.gradle\caches\8.13\transforms\ee8d56694396f80ee606648a730eff7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+94            <meta-data
+94-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+95                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+96                android:value="androidx.startup" />
+96-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+97        </provider>
+98
+99        <receiver
+99-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+100            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+100-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+101            android:directBootAware="false"
+101-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+102            android:enabled="true"
+102-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+103            android:exported="true"
+103-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+104            android:permission="android.permission.DUMP" >
+104-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+105            <intent-filter>
+105-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+106                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+106-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+106-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+107            </intent-filter>
+108            <intent-filter>
+108-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+109                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+109-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+109-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+110            </intent-filter>
+111            <intent-filter>
+111-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+112                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+112-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+112-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+113            </intent-filter>
+114            <intent-filter>
+114-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+115                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+115-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+115-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+116            </intent-filter>
+117        </receiver>
+118    </application>
+119
+120</manifest>
