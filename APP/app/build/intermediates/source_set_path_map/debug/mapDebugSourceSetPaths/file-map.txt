@@ -1,37 +1,37 @@
-com.example.banhangapp-core-ktx-1.9.0-0 C:\Users\hoang\.gradle\caches\8.13\transforms\0029e5472b746c6b5b753b94662f6f07\transformed\core-ktx-1.9.0\res
-com.example.banhangapp-emoji2-1.2.0-1 C:\Users\hoang\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\res
-com.example.banhangapp-annotation-experimental-1.3.0-2 C:\Users\hoang\.gradle\caches\8.13\transforms\09432f743576b7c4745defa8bd027439\transformed\annotation-experimental-1.3.0\res
-com.example.banhangapp-core-1.9.0-3 C:\Users\hoang\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\res
-com.example.banhangapp-lifecycle-livedata-core-ktx-2.7.0-4 C:\Users\hoang\.gradle\caches\8.13\transforms\0e010a10e6803a2b97cac5909404f8d4\transformed\lifecycle-livedata-core-ktx-2.7.0\res
-com.example.banhangapp-profileinstaller-1.3.0-5 C:\Users\hoang\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\res
-com.example.banhangapp-lifecycle-viewmodel-2.7.0-6 C:\Users\hoang\.gradle\caches\8.13\transforms\310cc688a8668aff49ade4be00a4fd49\transformed\lifecycle-viewmodel-2.7.0\res
-com.example.banhangapp-transition-1.2.0-7 C:\Users\hoang\.gradle\caches\8.13\transforms\3290e0706329f63510f8d600a21029df\transformed\transition-1.2.0\res
-com.example.banhangapp-drawerlayout-1.1.1-8 C:\Users\hoang\.gradle\caches\8.13\transforms\40259aa02e27b43345e3edf5ecd2d1bc\transformed\drawerlayout-1.1.1\res
-com.example.banhangapp-activity-1.8.2-9 C:\Users\hoang\.gradle\caches\8.13\transforms\40bb1102bff0447f8df2e96b2abc21a4\transformed\activity-1.8.2\res
-com.example.banhangapp-lifecycle-viewmodel-savedstate-2.7.0-10 C:\Users\hoang\.gradle\caches\8.13\transforms\46c6feea5bafb785550ba5384345d562\transformed\lifecycle-viewmodel-savedstate-2.7.0\res
-com.example.banhangapp-viewpager2-1.1.0-beta02-11 C:\Users\hoang\.gradle\caches\8.13\transforms\4d3da4d3a5c83daf35addb2eaba93b69\transformed\viewpager2-1.1.0-beta02\res
-com.example.banhangapp-appcompat-resources-1.6.1-12 C:\Users\hoang\.gradle\caches\8.13\transforms\5aa37a2a81498c429fb2b03b25788938\transformed\appcompat-resources-1.6.1\res
-com.example.banhangapp-cardview-1.0.0-13 C:\Users\hoang\.gradle\caches\8.13\transforms\637e6775a88e91c6193b5271e1d6a769\transformed\cardview-1.0.0\res
-com.example.banhangapp-fragment-1.3.6-14 C:\Users\hoang\.gradle\caches\8.13\transforms\6f9e74b00546a2ce9f49ccab39dd3fac\transformed\fragment-1.3.6\res
-com.example.banhangapp-recyclerview-1.3.2-15 C:\Users\hoang\.gradle\caches\8.13\transforms\736afdd3e148c145296e10784e804353\transformed\recyclerview-1.3.2\res
-com.example.banhangapp-lifecycle-livedata-2.7.0-16 C:\Users\hoang\.gradle\caches\8.13\transforms\764d9b94ef8edd14b3dd6a388cb39536\transformed\lifecycle-livedata-2.7.0\res
-com.example.banhangapp-customview-poolingcontainer-1.0.0-17 C:\Users\hoang\.gradle\caches\8.13\transforms\8ef708d910808b9c95d269e8145242a6\transformed\customview-poolingcontainer-1.0.0\res
-com.example.banhangapp-constraintlayout-2.1.4-18 C:\Users\hoang\.gradle\caches\8.13\transforms\8f306e7ccb23f56c842d655ced5141be\transformed\constraintlayout-2.1.4\res
-com.example.banhangapp-lifecycle-runtime-2.7.0-19 C:\Users\hoang\.gradle\caches\8.13\transforms\8ff096e7ec7963cb18d7ac8a7064a106\transformed\lifecycle-runtime-2.7.0\res
-com.example.banhangapp-emoji2-views-helper-1.2.0-20 C:\Users\hoang\.gradle\caches\8.13\transforms\a06698047cd9befd7c92d68c912e4592\transformed\emoji2-views-helper-1.2.0\res
-com.example.banhangapp-material-1.11.0-21 C:\Users\hoang\.gradle\caches\8.13\transforms\affc657c7839e9c24755596520f2219c\transformed\material-1.11.0\res
-com.example.banhangapp-glide-4.16.0-22 C:\Users\hoang\.gradle\caches\8.13\transforms\bbad8d4adf5ef3f06ea29be1cee4ccfa\transformed\glide-4.16.0\res
-com.example.banhangapp-appcompat-1.6.1-23 C:\Users\hoang\.gradle\caches\8.13\transforms\c2d3e607b2839d7eed22e09c7c203c63\transformed\appcompat-1.6.1\res
-com.example.banhangapp-core-runtime-2.2.0-24 C:\Users\hoang\.gradle\caches\8.13\transforms\d4f72201eb2770f4271cfcb976a211ce\transformed\core-runtime-2.2.0\res
-com.example.banhangapp-coordinatorlayout-1.1.0-25 C:\Users\hoang\.gradle\caches\8.13\transforms\e725c416f3458b4365c1d712c388983f\transformed\coordinatorlayout-1.1.0\res
-com.example.banhangapp-lifecycle-process-2.7.0-26 C:\Users\hoang\.gradle\caches\8.13\transforms\ee8d56694396f80ee606648a730eff7b\transformed\lifecycle-process-2.7.0\res
-com.example.banhangapp-lifecycle-livedata-core-2.7.0-27 C:\Users\hoang\.gradle\caches\8.13\transforms\f3c6e12ee7d477676863f166f1a70f58\transformed\lifecycle-livedata-core-2.7.0\res
-com.example.banhangapp-savedstate-1.2.1-28 C:\Users\hoang\.gradle\caches\8.13\transforms\f3dd3e9ddccc63a8a7810e1dc7eb89e4\transformed\savedstate-1.2.1\res
-com.example.banhangapp-startup-runtime-1.1.1-29 C:\Users\hoang\.gradle\caches\8.13\transforms\f784011af0c9fe160ad95fd8a10a5cda\transformed\startup-runtime-1.1.1\res
-com.example.banhangapp-pngs-30 C:\Users\hoang\Desktop\Project DuAn1\duan\app\build\generated\res\pngs\debug
-com.example.banhangapp-resValues-31 C:\Users\hoang\Desktop\Project DuAn1\duan\app\build\generated\res\resValues\debug
-com.example.banhangapp-packageDebugResources-32 C:\Users\hoang\Desktop\Project DuAn1\duan\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.banhangapp-packageDebugResources-33 C:\Users\hoang\Desktop\Project DuAn1\duan\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.banhangapp-debug-34 C:\Users\hoang\Desktop\Project DuAn1\duan\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.banhangapp-debug-35 C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\debug\res
-com.example.banhangapp-main-36 C:\Users\hoang\Desktop\Project DuAn1\duan\app\src\main\res
+com.example.banhangapp-core-ktx-1.9.0-0 C:\Users\tranh\.gradle\caches\8.13\transforms\0029e5472b746c6b5b753b94662f6f07\transformed\core-ktx-1.9.0\res
+com.example.banhangapp-emoji2-1.2.0-1 C:\Users\tranh\.gradle\caches\8.13\transforms\04eb0e66d79662d5d433116b667e5b1b\transformed\emoji2-1.2.0\res
+com.example.banhangapp-annotation-experimental-1.3.0-2 C:\Users\tranh\.gradle\caches\8.13\transforms\09432f743576b7c4745defa8bd027439\transformed\annotation-experimental-1.3.0\res
+com.example.banhangapp-core-1.9.0-3 C:\Users\tranh\.gradle\caches\8.13\transforms\095e0658360e24366c7fdfd375ab339e\transformed\core-1.9.0\res
+com.example.banhangapp-lifecycle-livedata-core-ktx-2.7.0-4 C:\Users\tranh\.gradle\caches\8.13\transforms\0e010a10e6803a2b97cac5909404f8d4\transformed\lifecycle-livedata-core-ktx-2.7.0\res
+com.example.banhangapp-profileinstaller-1.3.0-5 C:\Users\tranh\.gradle\caches\8.13\transforms\29c24f3a00be075b30c2626e1697374f\transformed\profileinstaller-1.3.0\res
+com.example.banhangapp-lifecycle-viewmodel-2.7.0-6 C:\Users\tranh\.gradle\caches\8.13\transforms\310cc688a8668aff49ade4be00a4fd49\transformed\lifecycle-viewmodel-2.7.0\res
+com.example.banhangapp-transition-1.2.0-7 C:\Users\tranh\.gradle\caches\8.13\transforms\3290e0706329f63510f8d600a21029df\transformed\transition-1.2.0\res
+com.example.banhangapp-drawerlayout-1.1.1-8 C:\Users\tranh\.gradle\caches\8.13\transforms\40259aa02e27b43345e3edf5ecd2d1bc\transformed\drawerlayout-1.1.1\res
+com.example.banhangapp-activity-1.8.2-9 C:\Users\tranh\.gradle\caches\8.13\transforms\40bb1102bff0447f8df2e96b2abc21a4\transformed\activity-1.8.2\res
+com.example.banhangapp-lifecycle-viewmodel-savedstate-2.7.0-10 C:\Users\tranh\.gradle\caches\8.13\transforms\46c6feea5bafb785550ba5384345d562\transformed\lifecycle-viewmodel-savedstate-2.7.0\res
+com.example.banhangapp-viewpager2-1.1.0-beta02-11 C:\Users\tranh\.gradle\caches\8.13\transforms\4d3da4d3a5c83daf35addb2eaba93b69\transformed\viewpager2-1.1.0-beta02\res
+com.example.banhangapp-appcompat-resources-1.6.1-12 C:\Users\tranh\.gradle\caches\8.13\transforms\5aa37a2a81498c429fb2b03b25788938\transformed\appcompat-resources-1.6.1\res
+com.example.banhangapp-cardview-1.0.0-13 C:\Users\tranh\.gradle\caches\8.13\transforms\637e6775a88e91c6193b5271e1d6a769\transformed\cardview-1.0.0\res
+com.example.banhangapp-fragment-1.3.6-14 C:\Users\tranh\.gradle\caches\8.13\transforms\6f9e74b00546a2ce9f49ccab39dd3fac\transformed\fragment-1.3.6\res
+com.example.banhangapp-recyclerview-1.3.2-15 C:\Users\tranh\.gradle\caches\8.13\transforms\736afdd3e148c145296e10784e804353\transformed\recyclerview-1.3.2\res
+com.example.banhangapp-lifecycle-livedata-2.7.0-16 C:\Users\tranh\.gradle\caches\8.13\transforms\764d9b94ef8edd14b3dd6a388cb39536\transformed\lifecycle-livedata-2.7.0\res
+com.example.banhangapp-customview-poolingcontainer-1.0.0-17 C:\Users\tranh\.gradle\caches\8.13\transforms\8ef708d910808b9c95d269e8145242a6\transformed\customview-poolingcontainer-1.0.0\res
+com.example.banhangapp-constraintlayout-2.1.4-18 C:\Users\tranh\.gradle\caches\8.13\transforms\8f306e7ccb23f56c842d655ced5141be\transformed\constraintlayout-2.1.4\res
+com.example.banhangapp-lifecycle-runtime-2.7.0-19 C:\Users\tranh\.gradle\caches\8.13\transforms\8ff096e7ec7963cb18d7ac8a7064a106\transformed\lifecycle-runtime-2.7.0\res
+com.example.banhangapp-emoji2-views-helper-1.2.0-20 C:\Users\tranh\.gradle\caches\8.13\transforms\a06698047cd9befd7c92d68c912e4592\transformed\emoji2-views-helper-1.2.0\res
+com.example.banhangapp-material-1.11.0-21 C:\Users\tranh\.gradle\caches\8.13\transforms\affc657c7839e9c24755596520f2219c\transformed\material-1.11.0\res
+com.example.banhangapp-glide-4.16.0-22 C:\Users\tranh\.gradle\caches\8.13\transforms\bbad8d4adf5ef3f06ea29be1cee4ccfa\transformed\glide-4.16.0\res
+com.example.banhangapp-appcompat-1.6.1-23 C:\Users\tranh\.gradle\caches\8.13\transforms\c2d3e607b2839d7eed22e09c7c203c63\transformed\appcompat-1.6.1\res
+com.example.banhangapp-core-runtime-2.2.0-24 C:\Users\tranh\.gradle\caches\8.13\transforms\d4f72201eb2770f4271cfcb976a211ce\transformed\core-runtime-2.2.0\res
+com.example.banhangapp-coordinatorlayout-1.1.0-25 C:\Users\tranh\.gradle\caches\8.13\transforms\e725c416f3458b4365c1d712c388983f\transformed\coordinatorlayout-1.1.0\res
+com.example.banhangapp-lifecycle-process-2.7.0-26 C:\Users\tranh\.gradle\caches\8.13\transforms\ee8d56694396f80ee606648a730eff7b\transformed\lifecycle-process-2.7.0\res
+com.example.banhangapp-lifecycle-livedata-core-2.7.0-27 C:\Users\tranh\.gradle\caches\8.13\transforms\f3c6e12ee7d477676863f166f1a70f58\transformed\lifecycle-livedata-core-2.7.0\res
+com.example.banhangapp-savedstate-1.2.1-28 C:\Users\tranh\.gradle\caches\8.13\transforms\f3dd3e9ddccc63a8a7810e1dc7eb89e4\transformed\savedstate-1.2.1\res
+com.example.banhangapp-startup-runtime-1.1.1-29 C:\Users\tranh\.gradle\caches\8.13\transforms\f784011af0c9fe160ad95fd8a10a5cda\transformed\startup-runtime-1.1.1\res
+com.example.banhangapp-pngs-30 E:\Project DuAn\ApiApp-main\APP\app\build\generated\res\pngs\debug
+com.example.banhangapp-resValues-31 E:\Project DuAn\ApiApp-main\APP\app\build\generated\res\resValues\debug
+com.example.banhangapp-packageDebugResources-32 E:\Project DuAn\ApiApp-main\APP\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.banhangapp-packageDebugResources-33 E:\Project DuAn\ApiApp-main\APP\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.banhangapp-debug-34 E:\Project DuAn\ApiApp-main\APP\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.banhangapp-debug-35 E:\Project DuAn\ApiApp-main\APP\app\src\debug\res
+com.example.banhangapp-main-36 E:\Project DuAn\ApiApp-main\APP\app\src\main\res

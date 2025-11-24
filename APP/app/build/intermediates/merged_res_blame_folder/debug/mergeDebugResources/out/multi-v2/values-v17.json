@@ -4,7 +4,7 @@
             "outputFile": "com.example.banhangapp-mergeDebugResources-32:/values-v17/values-v17.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hoang\\.gradle\\caches\\8.13\\transforms\\c2d3e607b2839d7eed22e09c7c203c63\\transformed\\appcompat-1.6.1\\res\\values-v17\\values-v17.xml",
+                    "source": "C:\\Users\\tranh\\.gradle\\caches\\8.13\\transforms\\c2d3e607b2839d7eed22e09c7c203c63\\transformed\\appcompat-1.6.1\\res\\values-v17\\values-v17.xml",
                     "from": {
                         "startLines": "2,5,9,12,15,18,22,25,29,33,37,40,43,46,50,53,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

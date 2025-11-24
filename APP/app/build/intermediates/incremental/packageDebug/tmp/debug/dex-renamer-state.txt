@@ -1,13 +1,13 @@
-#Mon Nov 24 01:25:56 ICT 2025
-base.0=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.2=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
-base.3=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
-base.4=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\15\\classes.dex
-base.5=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
-base.6=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
-base.7=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
-base.8=C\:\\Users\\hoang\\Desktop\\Project DuAn1\\duan\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+#Mon Nov 24 12:44:51 ICT 2025
+base.0=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.2=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
+base.3=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
+base.4=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\15\\classes.dex
+base.5=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
+base.6=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
+base.7=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
+base.8=E\:\\Project DuAn\\ApiApp-main\\APP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=11/classes.dex
