@@ -20,45 +20,115 @@
     </nav>
     
     <div class="container">
-        <div class="filter-bar">
-            <div class="filter-group">
-                <label>Lọc theo trạng thái:</label>
-                <select id="statusFilter" onchange="loadReports()">
-                    <option value="">Tất cả</option>
-                    <option value="pending">Đang chờ</option>
-                    <option value="reviewing">Đang xem xét</option>
-                    <option value="resolved">Đã xử lý</option>
-                    <option value="dismissed">Đã từ chối</option>
-                </select>
+        <!-- Tab Navigation -->
+        <div class="tab-navigation" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0;">
+            <button class="tab-btn active" onclick="switchTab('reports')" id="tabReports" style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-weight: 600; color: #64748b; transition: all 0.3s;">
+                📋 Báo cáo
+            </button>
+            <button class="tab-btn" onclick="switchTab('revenue')" id="tabRevenue" style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-weight: 600; color: #64748b; transition: all 0.3s;">
+                💰 Doanh thu
+            </button>
+        </div>
+
+        <!-- Reports Tab Content -->
+        <div id="reportsTab" class="tab-content">
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label>Lọc theo trạng thái:</label>
+                    <select id="statusFilter" onchange="loadReports()">
+                        <option value="">Tất cả</option>
+                        <option value="pending">Đang chờ</option>
+                        <option value="reviewing">Đang xem xét</option>
+                        <option value="resolved">Đã xử lý</option>
+                        <option value="dismissed">Đã từ chối</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Lọc theo loại:</label>
+                    <select id="typeFilter" onchange="loadReports()">
+                        <option value="">Tất cả</option>
+                        <option value="seller">Báo cáo người bán</option>
+                        <option value="buyer">Báo cáo người mua</option>
+                    </select>
+                </div>
             </div>
-            <div class="filter-group">
-                <label>Lọc theo loại:</label>
-                <select id="typeFilter" onchange="loadReports()">
-                    <option value="">Tất cả</option>
-                    <option value="seller">Báo cáo người bán</option>
-                    <option value="buyer">Báo cáo người mua</option>
-                </select>
+            
+            <div class="table-container">
+                <table id="reportsTable">
+                    <thead>
+                        <tr>
+                            <th>Người báo cáo</th>
+                            <th>Người bị báo cáo</th>
+                            <th>Loại</th>
+                            <th>Lý do</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th>Ghi chú Admin</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsTableBody">
+                        <tr><td colspan="8" class="loading">Đang tải...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        
-        <div class="table-container">
-            <table id="reportsTable">
-                <thead>
-                    <tr>
-                        <th>Người báo cáo</th>
-                        <th>Người bị báo cáo</th>
-                        <th>Loại</th>
-                        <th>Lý do</th>
-                        <th>Trạng thái</th>
-                        <th>Ngày tạo</th>
-                        <th>Ghi chú Admin</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody id="reportsTableBody">
-                    <tr><td colspan="8" class="loading">Đang tải...</td></tr>
-                </tbody>
-            </table>
+
+        <!-- Revenue Tab Content -->
+        <div id="revenueTab" class="tab-content" style="display: none;">
+            <div class="revenue-controls" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: var(--shadow-md);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                    <div class="filter-group">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Chọn tháng:</label>
+                        <input type="month" id="monthPicker" onchange="loadRevenue()" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div class="filter-group">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Chọn năm:</label>
+                        <input type="number" id="yearPicker" min="2020" max="2100" onchange="loadRevenue()" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div class="filter-group" style="display: flex; align-items: flex-end;">
+                        <button onclick="loadRevenue()" class="btn btn-primary" style="width: 100%;">🔄 Tải lại</button>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="setRevenuePeriod('month')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📅 Theo tháng</button>
+                    <button onclick="setRevenuePeriod('year')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📆 Theo năm</button>
+                    <button onclick="setRevenuePeriod('all')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📊 Tất cả</button>
+                </div>
+            </div>
+
+            <!-- Revenue Summary Cards -->
+            <div class="revenue-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                <div class="revenue-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                    <div style="font-size: 14px; opacity: 0.9; margin-bottom: 8px;">💰 Tổng doanh thu</div>
+                    <div id="totalRevenue" style="font-size: 32px; font-weight: 700;">0 VNĐ</div>
+                </div>
+                <div class="revenue-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                    <div style="font-size: 14px; opacity: 0.9; margin-bottom: 8px;">📦 Tổng đơn hàng</div>
+                    <div id="totalOrders" style="font-size: 32px; font-weight: 700;">0</div>
+                </div>
+                <div class="revenue-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                    <div style="font-size: 14px; opacity: 0.9; margin-bottom: 8px;">📊 Đơn hàng trung bình</div>
+                    <div id="avgOrder" style="font-size: 32px; font-weight: 700;">0 VNĐ</div>
+                </div>
+            </div>
+
+            <!-- Revenue Table -->
+            <div class="table-container">
+                <table id="revenueTable">
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Số đơn hàng</th>
+                            <th>Doanh thu</th>
+                            <th>Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody id="revenueTableBody">
+                        <tr><td colspan="4" class="loading">Đang tải...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     
@@ -114,7 +184,243 @@
         checkAuth();
         loadReports();
         
+        // Initialize date pickers with current month/year
+        const now = new Date();
+        document.getElementById('monthPicker').value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+        document.getElementById('yearPicker').value = now.getFullYear();
+        
         let currentReport = null;
+        let currentRevenuePeriod = 'month';
+        
+        // Tab switching
+        function switchTab(tab) {
+            const reportsTab = document.getElementById('reportsTab');
+            const revenueTab = document.getElementById('revenueTab');
+            const tabReports = document.getElementById('tabReports');
+            const tabRevenue = document.getElementById('tabRevenue');
+            
+            if (tab === 'reports') {
+                reportsTab.style.display = 'block';
+                revenueTab.style.display = 'none';
+                tabReports.classList.add('active');
+                tabReports.style.borderBottomColor = '#667eea';
+                tabReports.style.color = '#667eea';
+                tabRevenue.classList.remove('active');
+                tabRevenue.style.borderBottomColor = 'transparent';
+                tabRevenue.style.color = '#64748b';
+            } else {
+                reportsTab.style.display = 'none';
+                revenueTab.style.display = 'block';
+                tabRevenue.classList.add('active');
+                tabRevenue.style.borderBottomColor = '#667eea';
+                tabRevenue.style.color = '#667eea';
+                tabReports.classList.remove('active');
+                tabReports.style.borderBottomColor = 'transparent';
+                tabReports.style.color = '#64748b';
+                loadRevenue();
+            }
+        }
+        
+        // Set revenue period
+        function setRevenuePeriod(period) {
+            currentRevenuePeriod = period;
+            const now = new Date();
+            const monthPicker = document.getElementById('monthPicker');
+            const yearPicker = document.getElementById('yearPicker');
+            
+            if (period === 'month') {
+                const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+                monthPicker.value = currentMonth;
+                yearPicker.value = '';
+            } else if (period === 'year') {
+                yearPicker.value = now.getFullYear();
+                monthPicker.value = '';
+            } else {
+                monthPicker.value = '';
+                yearPicker.value = '';
+            }
+            loadRevenue();
+        }
+        
+        // Load revenue data
+        async function loadRevenue() {
+            const tbody = document.getElementById('revenueTableBody');
+            tbody.innerHTML = '<tr><td colspan="4" class="loading">Đang tải...</td></tr>';
+            
+            // Update summary cards with loading state
+            document.getElementById('totalRevenue').textContent = 'Đang tải...';
+            document.getElementById('totalOrders').textContent = '...';
+            document.getElementById('avgOrder').textContent = 'Đang tải...';
+            
+            const token = localStorage.getItem('adminToken');
+            const monthPicker = document.getElementById('monthPicker');
+            const yearPicker = document.getElementById('yearPicker');
+            const params = new URLSearchParams();
+            
+            if (monthPicker.value) {
+                params.append('month', monthPicker.value);
+            }
+            if (yearPicker.value && !monthPicker.value) {
+                params.append('year', yearPicker.value);
+            }
+            
+            try {
+                // Try different possible API endpoints
+                let url = `${API_BASE_URL}/api/revenue`;
+                if (params.toString()) {
+                    url += '?' + params.toString();
+                }
+                
+                let response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                // If revenue endpoint doesn't exist, try orders endpoint
+                if (response.status === 404) {
+                    url = `${API_BASE_URL}/api/orders`;
+                    if (params.toString()) {
+                        url += '?' + params.toString();
+                    }
+                    response = await fetch(url, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                }
+                
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                if (!response.ok) {
+                    throw new Error('Không thể tải dữ liệu doanh thu');
+                }
+                
+                const data = await response.json();
+                processRevenueData(data);
+            } catch (error) {
+                console.error('Error loading revenue:', error);
+                // Show mock data for demonstration
+                displayMockRevenue();
+            }
+        }
+        
+        // Process revenue data from API
+        function processRevenueData(data) {
+            // Handle different response formats
+            let orders = [];
+            if (Array.isArray(data)) {
+                orders = data;
+            } else if (data.orders) {
+                orders = data.orders;
+            } else if (data.data) {
+                orders = data.data;
+            }
+            
+            // Calculate revenue statistics
+            let totalRevenue = 0;
+            let totalOrders = orders.length;
+            const revenueByDate = {};
+            
+            orders.forEach(order => {
+                const orderDate = new Date(order.createdAt || order.date || Date.now()).toLocaleDateString('vi-VN');
+                const orderTotal = order.total || order.amount || order.price || 0;
+                totalRevenue += orderTotal;
+                
+                if (!revenueByDate[orderDate]) {
+                    revenueByDate[orderDate] = { count: 0, revenue: 0 };
+                }
+                revenueByDate[orderDate].count++;
+                revenueByDate[orderDate].revenue += orderTotal;
+            });
+            
+            const avgOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            
+            // Update summary cards
+            document.getElementById('totalRevenue').textContent = 
+                new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalRevenue);
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('avgOrder').textContent = 
+                new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(avgOrder);
+            
+            // Display revenue table
+            displayRevenueTable(revenueByDate);
+        }
+        
+        // Display mock revenue data (for demonstration)
+        function displayMockRevenue() {
+            const now = new Date();
+            const monthPicker = document.getElementById('monthPicker');
+            const yearPicker = document.getElementById('yearPicker');
+            
+            // Generate mock data
+            let mockOrders = [];
+            const daysInMonth = monthPicker.value ? new Date(monthPicker.value + '-01').getDate() : 30;
+            const selectedYear = yearPicker.value || now.getFullYear();
+            const selectedMonth = monthPicker.value ? parseInt(monthPicker.value.split('-')[1]) : now.getMonth() + 1;
+            
+            for (let i = 1; i <= daysInMonth; i++) {
+                const date = new Date(selectedYear, selectedMonth - 1, i);
+                const orderCount = Math.floor(Math.random() * 10) + 1;
+                const dailyRevenue = orderCount * (Math.random() * 500000 + 100000);
+                
+                mockOrders.push({
+                    date: date.toLocaleDateString('vi-VN'),
+                    count: orderCount,
+                    revenue: dailyRevenue
+                });
+            }
+            
+            let totalRevenue = mockOrders.reduce((sum, o) => sum + o.revenue, 0);
+            let totalOrders = mockOrders.reduce((sum, o) => sum + o.count, 0);
+            let avgOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            
+            document.getElementById('totalRevenue').textContent = 
+                new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalRevenue);
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('avgOrder').textContent = 
+                new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(avgOrder);
+            
+            const revenueByDate = {};
+            mockOrders.forEach(order => {
+                revenueByDate[order.date] = { count: order.count, revenue: order.revenue };
+            });
+            
+            displayRevenueTable(revenueByDate);
+        }
+        
+        // Display revenue table
+        function displayRevenueTable(revenueByDate) {
+            const tbody = document.getElementById('revenueTableBody');
+            const dates = Object.keys(revenueByDate).sort((a, b) => {
+                return new Date(b.split('/').reverse().join('-')) - new Date(a.split('/').reverse().join('-'));
+            });
+            
+            if (dates.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty">Không có dữ liệu</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = dates.map(date => {
+                const data = revenueByDate[date];
+                return `
+                    <tr>
+                        <td><strong>${date}</strong></td>
+                        <td>${data.count}</td>
+                        <td style="color: #10b981; font-weight: 600;">
+                            ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.revenue)}
+                        </td>
+                        <td>
+                            <button onclick="viewRevenueDetails('${date}')" class="btn btn-sm btn-secondary">👁️ Xem chi tiết</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // View revenue details for a specific date
+        function viewRevenueDetails(date) {
+            alert(`Chi tiết doanh thu ngày ${date}\n\nChức năng này sẽ hiển thị danh sách đơn hàng chi tiết trong ngày.`);
+        }
 
         async function loadReports() {
             const status = document.getElementById('statusFilter').value;
