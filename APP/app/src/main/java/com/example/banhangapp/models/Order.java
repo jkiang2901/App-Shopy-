@@ -2,7 +2,6 @@ package com.example.banhangapp.models;
 
 import com.example.banhangapp.utils.CustomerIdDeserializer;
 import com.example.banhangapp.utils.ProductIdDeserializer;
-import com.example.banhangapp.utils.SellerIdDeserializer;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
@@ -17,8 +16,7 @@ public class Order {
     private CustomerInfo customerId;
     
     @SerializedName("sellerId")
-    @JsonAdapter(SellerIdDeserializer.class)
-    private SellerInfo sellerId;  // Can be SellerInfo object or null
+    private String sellerId;  // Seller ID as string (for backend compatibility)
     
     @SerializedName("items")
     private List<OrderItem> items;
@@ -85,14 +83,8 @@ public class Order {
         return customerId.getId();
     }
 
-    public SellerInfo getSellerId() { return sellerId; }
-    public void setSellerId(SellerInfo sellerId) { this.sellerId = sellerId; }
-    
-    // Helper method to get seller ID as string
-    public String getSellerIdString() {
-        if (sellerId == null) return null;
-        return sellerId.getId();
-    }
+    public String getSellerId() { return sellerId; }
+    public void setSellerId(String sellerId) { this.sellerId = sellerId; }
 
     public List<OrderItem> getItems() { return items; }
     public void setItems(List<OrderItem> items) { this.items = items; }

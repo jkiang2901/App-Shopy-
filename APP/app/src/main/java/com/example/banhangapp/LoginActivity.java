@@ -153,7 +153,9 @@ public class LoginActivity extends AppCompatActivity {
             prefsHelper.clear();
             return;
         } else if ("seller".equals(role)) {
-            intent = new Intent(this, SellerDashboardActivity.class);
+            // Seller functionality removed - redirect to customer view
+            Toast.makeText(this, "Chức năng người bán đã bị vô hiệu hóa", Toast.LENGTH_LONG).show();
+            intent = new Intent(this, CustomerProductListActivity.class);
         } else {
             intent = new Intent(this, CustomerProductListActivity.class);
         }

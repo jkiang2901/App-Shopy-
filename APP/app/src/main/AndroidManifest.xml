@@ -46,24 +46,6 @@
         <activity
             android:name=".CustomerProfileActivity"
             android:exported="false" />
-        <activity
-            android:name=".SellerDashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SellerManageCustomersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SellerManageInventoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SellerManagePromotionsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SellerStatisticsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SellerTrackSalesActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

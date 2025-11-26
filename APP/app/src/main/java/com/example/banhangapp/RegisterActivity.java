@@ -3,7 +3,6 @@ package com.example.banhangapp;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.banhangapp.api.ApiService;
@@ -15,7 +14,6 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText etName, etEmail, etPassword, etPhone, etAddress;
-    private RadioGroup rgRole;
     private Button btnRegister;
     private SharedPreferencesHelper prefsHelper;
     private ApiService apiService;
@@ -33,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etPhone = findViewById(R.id.etPhone);
         etAddress = findViewById(R.id.etAddress);
-        rgRole = findViewById(R.id.rgRole);
         btnRegister = findViewById(R.id.btnRegister);
 
         btnRegister.setOnClickListener(v -> register());
@@ -46,11 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
         String phone = etPhone.getText().toString().trim();
         String address = etAddress.getText().toString().trim();
 
-        int selectedRoleId = rgRole.getCheckedRadioButtonId();
-        String role = "customer"; // default
-        if (selectedRoleId == R.id.rbSeller) {
-            role = "seller";
-        }
+        // Only customer role is allowed
+        String role = "customer";
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin bắt buộc", Toast.LENGTH_SHORT).show();
