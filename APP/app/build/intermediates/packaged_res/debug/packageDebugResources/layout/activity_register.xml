@@ -169,42 +169,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:id="@+id/tvRoleLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="👤 Vai trò:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary" />
-
-                    <RadioGroup
-                        android:id="@+id/rgRole"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="12dp">
-
-                        <RadioButton
-                            android:id="@+id/rbCustomer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🛒 Khách hàng"
-                            android:checked="true"
-                            android:textColor="@color/text_primary"
-                            android:buttonTint="@color/primary" />
-
-                        <RadioButton
-                            android:id="@+id/rbSeller"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:text="🏪 Người bán"
-                            android:textColor="@color/text_primary"
-                            android:buttonTint="@color/primary" />
-
-                    </RadioGroup>
 
                     <Button
                         android:id="@+id/btnRegister"

@@ -62,24 +62,6 @@
         <activity
             android:name="com.example.banhangapp.CustomerProfileActivity"
             android:exported="false" />
-        <activity
-            android:name="com.example.banhangapp.SellerDashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.banhangapp.SellerManageCustomersActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.banhangapp.SellerManageInventoryActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.banhangapp.SellerManagePromotionsActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.banhangapp.SellerStatisticsActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.banhangapp.SellerTrackSalesActivity"
-            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

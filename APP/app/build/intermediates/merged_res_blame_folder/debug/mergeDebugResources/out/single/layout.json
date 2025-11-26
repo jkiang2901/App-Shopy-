@@ -16,10 +16,6 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_manage_inventory.xml"
     },
     {
-        "merged": "com.example.banhangapp-mergeDebugResources-33:/layout/activity_login.xml",
-        "source": "com.example.banhangapp-main-36:/layout/activity_login.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-mergeDebugResources-33:\\layout\\item_promotion.xml",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_promotion.xml"
     },
@@ -102,5 +98,9 @@
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-mergeDebugResources-33:\\layout\\activity_seller_track_sales.xml",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_track_sales.xml"
+    },
+    {
+        "merged": "com.example.banhangapp-mergeDebugResources-33:/layout/activity_register.xml",
+        "source": "com.example.banhangapp-main-36:/layout/activity_register.xml"
     }
 ]

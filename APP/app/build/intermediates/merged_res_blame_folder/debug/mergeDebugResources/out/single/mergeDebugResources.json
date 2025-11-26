@@ -52,6 +52,10 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\dialog_add_edit_user.xml"
     },
     {
+        "merged": "com.example.banhangapp-debug-34:/layout_activity_register.xml.flat",
+        "source": "com.example.banhangapp-main-36:/layout/activity_register.xml"
+    },
+    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_seller_manage_customers.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_manage_customers.xml"
     },
@@ -74,10 +78,6 @@
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\drawable_search_background.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\drawable\\search_background.xml"
-    },
-    {
-        "merged": "com.example.banhangapp-debug-34:/layout_activity_login.xml.flat",
-        "source": "com.example.banhangapp-main-36:/layout/activity_login.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\anim_fade_out.xml.flat",

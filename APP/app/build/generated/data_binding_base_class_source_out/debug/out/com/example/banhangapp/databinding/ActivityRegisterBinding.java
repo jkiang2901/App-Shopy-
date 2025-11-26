@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,15 +49,6 @@ public final class ActivityRegisterBinding implements ViewBinding {
   public final ImageView ivLogo;
 
   @NonNull
-  public final RadioButton rbCustomer;
-
-  @NonNull
-  public final RadioButton rbSeller;
-
-  @NonNull
-  public final RadioGroup rgRole;
-
-  @NonNull
   public final TextInputLayout tilAddress;
 
   @NonNull
@@ -75,20 +64,16 @@ public final class ActivityRegisterBinding implements ViewBinding {
   public final TextInputLayout tilPhone;
 
   @NonNull
-  public final TextView tvRoleLabel;
-
-  @NonNull
   public final TextView tvTitle;
 
   private ActivityRegisterBinding(@NonNull CoordinatorLayout rootView, @NonNull Button btnRegister,
       @NonNull MaterialCardView cardRegister, @NonNull TextInputEditText etAddress,
       @NonNull TextInputEditText etEmail, @NonNull TextInputEditText etName,
       @NonNull TextInputEditText etPassword, @NonNull TextInputEditText etPhone,
-      @NonNull ImageView ivLogo, @NonNull RadioButton rbCustomer, @NonNull RadioButton rbSeller,
-      @NonNull RadioGroup rgRole, @NonNull TextInputLayout tilAddress,
+      @NonNull ImageView ivLogo, @NonNull TextInputLayout tilAddress,
       @NonNull TextInputLayout tilEmail, @NonNull TextInputLayout tilName,
       @NonNull TextInputLayout tilPassword, @NonNull TextInputLayout tilPhone,
-      @NonNull TextView tvRoleLabel, @NonNull TextView tvTitle) {
+      @NonNull TextView tvTitle) {
     this.rootView = rootView;
     this.btnRegister = btnRegister;
     this.cardRegister = cardRegister;
@@ -98,15 +83,11 @@ public final class ActivityRegisterBinding implements ViewBinding {
     this.etPassword = etPassword;
     this.etPhone = etPhone;
     this.ivLogo = ivLogo;
-    this.rbCustomer = rbCustomer;
-    this.rbSeller = rbSeller;
-    this.rgRole = rgRole;
     this.tilAddress = tilAddress;
     this.tilEmail = tilEmail;
     this.tilName = tilName;
     this.tilPassword = tilPassword;
     this.tilPhone = tilPhone;
-    this.tvRoleLabel = tvRoleLabel;
     this.tvTitle = tvTitle;
   }
 
@@ -185,24 +166,6 @@ public final class ActivityRegisterBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.rbCustomer;
-      RadioButton rbCustomer = ViewBindings.findChildViewById(rootView, id);
-      if (rbCustomer == null) {
-        break missingId;
-      }
-
-      id = R.id.rbSeller;
-      RadioButton rbSeller = ViewBindings.findChildViewById(rootView, id);
-      if (rbSeller == null) {
-        break missingId;
-      }
-
-      id = R.id.rgRole;
-      RadioGroup rgRole = ViewBindings.findChildViewById(rootView, id);
-      if (rgRole == null) {
-        break missingId;
-      }
-
       id = R.id.tilAddress;
       TextInputLayout tilAddress = ViewBindings.findChildViewById(rootView, id);
       if (tilAddress == null) {
@@ -233,12 +196,6 @@ public final class ActivityRegisterBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvRoleLabel;
-      TextView tvRoleLabel = ViewBindings.findChildViewById(rootView, id);
-      if (tvRoleLabel == null) {
-        break missingId;
-      }
-
       id = R.id.tvTitle;
       TextView tvTitle = ViewBindings.findChildViewById(rootView, id);
       if (tvTitle == null) {
@@ -246,8 +203,8 @@ public final class ActivityRegisterBinding implements ViewBinding {
       }
 
       return new ActivityRegisterBinding((CoordinatorLayout) rootView, btnRegister, cardRegister,
-          etAddress, etEmail, etName, etPassword, etPhone, ivLogo, rbCustomer, rbSeller, rgRole,
-          tilAddress, tilEmail, tilName, tilPassword, tilPhone, tvRoleLabel, tvTitle);
+          etAddress, etEmail, etName, etPassword, etPhone, ivLogo, tilAddress, tilEmail, tilName,
+          tilPassword, tilPhone, tvTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

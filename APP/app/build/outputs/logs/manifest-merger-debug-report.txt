@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-69:12
-INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-69:12
-INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-69:12
-INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-69:12
+ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:2:1-51:12
 MERGED from [androidx.databinding:viewbinding:8.11.2] C:\Users\tranh\.gradle\caches\8.13\transforms\4e480e92d855b74e7713feb308ffda7e\transformed\viewbinding-8.11.2\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\tranh\.gradle\caches\8.13\transforms\affc657c7839e9c24755596520f2219c\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\tranh\.gradle\caches\8.13\transforms\8f306e7ccb23f56c842d655ced5141be\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -70,8 +70,8 @@ ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:6:5-
 	android:name
 		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:6:22-76
 application
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:8:5-67:19
-INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:8:5-67:19
+ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:8:5-49:19
+INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:8:5-49:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\tranh\.gradle\caches\8.13\transforms\affc657c7839e9c24755596520f2219c\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\tranh\.gradle\caches\8.13\transforms\affc657c7839e9c24755596520f2219c\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\tranh\.gradle\caches\8.13\transforms\8f306e7ccb23f56c842d655ced5141be\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -172,42 +172,6 @@ ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:46:9
 		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:48:13-37
 	android:name
 		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:47:13-52
-activity#com.example.banhangapp.SellerDashboardActivity
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:49:9-51:40
-	android:exported
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:51:13-37
-	android:name
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:50:13-52
-activity#com.example.banhangapp.SellerManageCustomersActivity
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:52:9-54:40
-	android:exported
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:54:13-37
-	android:name
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:53:13-58
-activity#com.example.banhangapp.SellerManageInventoryActivity
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:55:9-57:40
-	android:exported
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:57:13-37
-	android:name
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:56:13-58
-activity#com.example.banhangapp.SellerManagePromotionsActivity
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:58:9-60:40
-	android:exported
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:60:13-37
-	android:name
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:59:13-59
-activity#com.example.banhangapp.SellerStatisticsActivity
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:61:9-63:40
-	android:exported
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:63:13-37
-	android:name
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:62:13-53
-activity#com.example.banhangapp.SellerTrackSalesActivity
-ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:64:9-66:40
-	android:exported
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:66:13-37
-	android:name
-		ADDED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml:65:13-53
 uses-sdk
 INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from E:\Project DuAn\ApiApp-main\APP\app\src\main\AndroidManifest.xml
