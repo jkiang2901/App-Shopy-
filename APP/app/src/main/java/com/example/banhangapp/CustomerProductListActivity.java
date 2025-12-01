@@ -48,38 +48,17 @@ public class CustomerProductListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewProducts);
         
-        // Check if RecyclerView is found
         if (recyclerView == null) {
-            android.util.Log.e("ProductList", "RecyclerView not found!");
             Toast.makeText(this, "Lỗi: RecyclerView không tìm thấy", Toast.LENGTH_LONG).show();
+            finish();
             return;
         }
         
-        // Log RecyclerView dimensions
-        recyclerView.post(() -> {
-            android.util.Log.d("ProductList", "RecyclerView dimensions: " + 
-                recyclerView.getWidth() + "x" + recyclerView.getHeight());
-            android.util.Log.d("ProductList", "RecyclerView visibility: " + recyclerView.getVisibility());
-        });
-        
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(false);
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
         
-        // Force RecyclerView to measure
-        recyclerView.post(() -> {
-            int width = recyclerView.getWidth();
-            int height = recyclerView.getHeight();
-            android.util.Log.d("ProductList", "RecyclerView dimensions after layout: " + width + "x" + height);
-            if (width == 0 || height == 0) {
-                android.util.Log.e("ProductList", "RecyclerView has zero dimensions! This is the problem.");
-            }
-        });
-        
-        android.util.Log.d("ProductList", "LayoutManager set, hasFixedSize=false");
-        
-        // Initialize adapter first
+        // Initialize adapter
         adapter = new ProductAdapter(
             product -> {
                 Intent intent = new Intent(this, CustomerProductDetailActivity.class);
@@ -91,14 +70,7 @@ public class CustomerProductListActivity extends AppCompatActivity {
             }
         );
         
-        // Set adapter to RecyclerView
         recyclerView.setAdapter(adapter);
-        android.util.Log.d("ProductList", "Adapter set to RecyclerView. Adapter item count: " + adapter.getItemCount());
-        
-        // Initialize with empty list
-        adapter.updateProducts(new ArrayList<>());
-        
-        android.util.Log.d("ProductList", "RecyclerView and adapter initialized. RecyclerView visibility: " + recyclerView.getVisibility());
 
         loadProducts();
     }
@@ -163,18 +135,9 @@ public class CustomerProductListActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         try {
                             allProducts = response.body();
-                            android.util.Log.d("ProductList", "Received " + (allProducts != null ? allProducts.size() : 0) + " products");
                             
                             if (allProducts != null && !allProducts.isEmpty()) {
-                                // Log first product to check parsing
-                                if (allProducts.size() > 0) {
-                                    Product first = allProducts.get(0);
-                                    android.util.Log.d("ProductList", "First product: " + first.getName() + ", ID: " + first.getId() + ", Price: " + first.getPrice());
-                                }
-                                
-                                // Make sure adapter is set
                                 if (adapter == null) {
-                                    android.util.Log.e("ProductList", "Adapter is null! Recreating...");
                                     adapter = new ProductAdapter(
                                         product -> {
                                             Intent intent = new Intent(CustomerProductListActivity.this, CustomerProductDetailActivity.class);
@@ -189,42 +152,11 @@ public class CustomerProductListActivity extends AppCompatActivity {
                                 }
                                 
                                 adapter.updateProducts(allProducts);
-                                android.util.Log.d("ProductList", "Adapter updated with " + allProducts.size() + " products. Item count: " + adapter.getItemCount());
-                                
-                                // Force RecyclerView to refresh
-                                recyclerView.post(() -> {
-                                    android.util.Log.d("ProductList", "Before refresh - RecyclerView dimensions: " + 
-                                        recyclerView.getWidth() + "x" + recyclerView.getHeight());
-                                    recyclerView.invalidate();
-                                    recyclerView.requestLayout();
-                                    
-                                    // Check if adapter is attached
-                                    if (recyclerView.getAdapter() == null) {
-                                        android.util.Log.e("ProductList", "Adapter is null! Re-attaching...");
-                                        recyclerView.setAdapter(adapter);
-                                    }
-                                    
-                                    // Force measure and layout
-                                    recyclerView.measure(
-                                        View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
-                                        View.MeasureSpec.makeMeasureSpec(recyclerView.getHeight(), View.MeasureSpec.EXACTLY)
-                                    );
-                                    recyclerView.layout(recyclerView.getLeft(), recyclerView.getTop(), 
-                                        recyclerView.getRight(), recyclerView.getBottom());
-                                    
-                                    android.util.Log.d("ProductList", "After refresh - RecyclerView dimensions: " + 
-                                        recyclerView.getWidth() + "x" + recyclerView.getHeight());
-                                    android.util.Log.d("ProductList", "Adapter item count: " + adapter.getItemCount());
-                                });
-                                
-                                Toast.makeText(CustomerProductListActivity.this, "Đã tải " + allProducts.size() + " sản phẩm", Toast.LENGTH_SHORT).show();
                             } else {
-                                android.util.Log.w("ProductList", "Product list is empty or null");
                                 Toast.makeText(CustomerProductListActivity.this, "Không có sản phẩm nào", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
-                            android.util.Log.e("ProductList", "Error processing products", e);
-                            Toast.makeText(CustomerProductListActivity.this, "Lỗi xử lý dữ liệu: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(CustomerProductListActivity.this, "Lỗi xử lý dữ liệu", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     } else {
@@ -297,19 +229,7 @@ public class CustomerProductListActivity extends AppCompatActivity {
                         (cart.getItems() != null ? cart.getItems().size() : 0) + " items");
                     Toast.makeText(CustomerProductListActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                 } else {
-                    String errorMsg = "Lỗi thêm vào giỏ hàng: Code " + response.code();
-                    try {
-                        if (response.errorBody() != null) {
-                            String errorBody = response.errorBody().string();
-                            errorMsg += " - " + errorBody;
-                            android.util.Log.e("ProductList", "Add to cart error: " + errorBody);
-                        }
-                    } catch (Exception e) {
-                        errorMsg += " - " + response.message();
-                        android.util.Log.e("ProductList", "Error reading error body", e);
-                    }
-                    android.util.Log.e("ProductList", errorMsg);
-                    Toast.makeText(CustomerProductListActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    handleErrorResponse(response);
                 }
             }
 
@@ -326,6 +246,75 @@ public class CustomerProductListActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void handleErrorResponse(Response<?> response) {
+        try {
+            int code = response.code();
+            
+            if (code == 401) {
+                // Token expired or user not found - logout and redirect to login
+                prefsHelper.clear();
+                Toast.makeText(this, "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại", Toast.LENGTH_LONG).show();
+                
+                // Navigate to login screen
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return;
+            }
+            
+            String errorMsg = "Không thể thêm vào giỏ hàng";
+            String message = response.message();
+            
+            okhttp3.ResponseBody errorBody = response.errorBody();
+            if (errorBody != null) {
+                try {
+                    String errorBodyString = errorBody.string();
+                    // Parse JSON error message if possible
+                    if (errorBodyString.contains("\"error\"") || errorBodyString.contains("\"message\"")) {
+                        // Try to extract error message from JSON
+                        if (errorBodyString.contains("User not found or inactive")) {
+                            errorMsg = "Tài khoản không tồn tại hoặc đã bị vô hiệu hóa. Vui lòng đăng nhập lại";
+                            prefsHelper.clear();
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                            return;
+                        } else {
+                            errorMsg = "Lỗi: " + errorBodyString;
+                        }
+                    } else {
+                        errorMsg = "Lỗi " + code + ": " + errorBodyString;
+                    }
+                } catch (Exception e) {
+                    errorMsg = "Lỗi " + code + ": " + (message != null ? message : "Không thể đọc thông báo lỗi");
+                }
+            } else {
+                switch (code) {
+                    case 403:
+                        errorMsg = "Bạn không có quyền thực hiện thao tác này";
+                        break;
+                    case 404:
+                        errorMsg = "Sản phẩm không tồn tại";
+                        break;
+                    case 400:
+                        errorMsg = "Dữ liệu không hợp lệ";
+                        break;
+                    case 500:
+                        errorMsg = "Lỗi server. Vui lòng thử lại sau";
+                        break;
+                    default:
+                        errorMsg = "Lỗi " + code + ": " + (message != null ? message : "Đã xảy ra lỗi");
+                }
+            }
+            
+            Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Đã xảy ra lỗi không xác định", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 

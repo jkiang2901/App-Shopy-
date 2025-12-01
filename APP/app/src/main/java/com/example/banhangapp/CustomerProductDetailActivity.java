@@ -1,5 +1,6 @@
 package com.example.banhangapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -103,7 +104,7 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
         }
         
         if (tvPrice != null) {
-            tvPrice.setText(String.format("%,.0f VNĐ", product.getPrice()));
+        tvPrice.setText(String.format("%,.0f VNĐ", product.getPrice()));
         }
         
         if (tvDescription != null) {
@@ -111,23 +112,23 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
         }
         
         if (tvCategory != null) {
-            tvCategory.setText("Danh mục: " + (product.getCategory() != null ? product.getCategory() : "N/A"));
+        tvCategory.setText("Danh mục: " + (product.getCategory() != null ? product.getCategory() : "N/A"));
         }
         
         if (tvBrand != null) {
-            tvBrand.setText("Thương hiệu: " + (product.getBrand() != null ? product.getBrand() : "N/A"));
+        tvBrand.setText("Thương hiệu: " + (product.getBrand() != null ? product.getBrand() : "N/A"));
         }
         
         if (tvColor != null) {
-            tvColor.setText("Màu sắc: " + (product.getColor() != null ? product.getColor() : "N/A"));
+        tvColor.setText("Màu sắc: " + (product.getColor() != null ? product.getColor() : "N/A"));
         }
         
         if (tvSize != null) {
-            tvSize.setText("Kích cỡ: " + (product.getSize() != null ? product.getSize() : "N/A"));
+        tvSize.setText("Kích cỡ: " + (product.getSize() != null ? product.getSize() : "N/A"));
         }
         
         if (tvQuantity != null) {
-            tvQuantity.setText("Số lượng: " + product.getQuantity());
+        tvQuantity.setText("Số lượng: " + product.getQuantity());
         }
         
         // Load product image
@@ -148,7 +149,7 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
         }
         
         if (btnAddToCart != null) {
-            btnAddToCart.setEnabled(product.isInStock() && product.getQuantity() > 0);
+        btnAddToCart.setEnabled(product.isInStock() && product.getQuantity() > 0);
         }
     }
 
@@ -161,13 +162,11 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
         String token = prefsHelper.getToken();
         
         if (token == null || token.isEmpty()) {
-            android.util.Log.e("ProductDetail", "Token is null or empty");
             Toast.makeText(this, "Vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
             return;
         }
         
         if (currentProduct.getId() == null || currentProduct.getId().isEmpty()) {
-            android.util.Log.e("ProductDetail", "Product ID is null or empty");
             Toast.makeText(this, "Sản phẩm không hợp lệ", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -178,61 +177,118 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
             btnAddToCart.setText("Đang thêm...");
         }
         
-        android.util.Log.d("ProductDetail", "Adding product to cart: " + currentProduct.getName() + " (ID: " + currentProduct.getId() + ")");
-        
         ApiService.CartItemRequest request = new ApiService.CartItemRequest(currentProduct.getId(), 1);
+        
         Call<com.example.banhangapp.models.Cart> call = apiService.addToCart(token, request);
         
         call.enqueue(new Callback<com.example.banhangapp.models.Cart>() {
             @Override
             public void onResponse(Call<com.example.banhangapp.models.Cart> call, Response<com.example.banhangapp.models.Cart> response) {
-                // Re-enable button
-                if (btnAddToCart != null) {
-                    btnAddToCart.setEnabled(true);
-                    btnAddToCart.setText("🛒 Thêm vào giỏ hàng");
-                }
-                
-                if (response.isSuccessful() && response.body() != null) {
-                    com.example.banhangapp.models.Cart cart = response.body();
-                    android.util.Log.d("ProductDetail", "Product added to cart successfully. Cart has " + 
-                        (cart.getItems() != null ? cart.getItems().size() : 0) + " items");
-                    Toast.makeText(CustomerProductDetailActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-                } else {
-                    String errorMsg = "Lỗi thêm vào giỏ hàng: Code " + response.code();
-                    try {
-                        if (response.errorBody() != null) {
-                            String errorBody = response.errorBody().string();
-                            errorMsg += " - " + errorBody;
-                            android.util.Log.e("ProductDetail", "Add to cart error: " + errorBody);
-                        }
-                    } catch (Exception e) {
-                        errorMsg += " - " + response.message();
-                        android.util.Log.e("ProductDetail", "Error reading error body", e);
+                // Run on main thread
+                runOnUiThread(() -> {
+                    // Re-enable button
+                    if (btnAddToCart != null) {
+                        btnAddToCart.setEnabled(true);
+                        btnAddToCart.setText("🛒 Thêm vào giỏ hàng");
                     }
-                    android.util.Log.e("ProductDetail", errorMsg);
-                    Toast.makeText(CustomerProductDetailActivity.this, errorMsg, Toast.LENGTH_LONG).show();
-                }
+                    
+                    if (response.isSuccessful() && response.body() != null) {
+                        Toast.makeText(CustomerProductDetailActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                    } else {
+                        handleErrorResponse(response);
+                    }
+                });
             }
 
             @Override
             public void onFailure(Call<com.example.banhangapp.models.Cart> call, Throwable t) {
-                // Re-enable button
-                if (btnAddToCart != null) {
-                    btnAddToCart.setEnabled(true);
-                    btnAddToCart.setText("🛒 Thêm vào giỏ hàng");
-                }
-                
-                String errorMsg = "Lỗi kết nối: ";
-                if (t.getMessage() != null) {
-                    errorMsg += t.getMessage();
-                } else {
-                    errorMsg += "Không thể kết nối đến server";
-                }
-                android.util.Log.e("ProductDetail", "Add to cart network error", t);
-                Toast.makeText(CustomerProductDetailActivity.this, errorMsg, Toast.LENGTH_LONG).show();
-                t.printStackTrace();
+                // Run on main thread
+                runOnUiThread(() -> {
+                    // Re-enable button
+                    if (btnAddToCart != null) {
+                        btnAddToCart.setEnabled(true);
+                        btnAddToCart.setText("🛒 Thêm vào giỏ hàng");
+                    }
+                    
+                    String errorMsg = "Lỗi kết nối: ";
+                    if (t.getMessage() != null) {
+                        errorMsg += t.getMessage();
+                    } else {
+                        errorMsg += "Không thể kết nối đến server";
+                    }
+                    Toast.makeText(CustomerProductDetailActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                });
             }
         });
+    }
+
+    private void handleErrorResponse(Response<?> response) {
+        try {
+            int code = response.code();
+            
+            if (code == 401) {
+                // Token expired or user not found - logout and redirect to login
+                prefsHelper.clear();
+                Toast.makeText(this, "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại", Toast.LENGTH_LONG).show();
+                
+                // Navigate to login screen
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return;
+            }
+            
+            String errorMsg = "Không thể thêm vào giỏ hàng";
+            String message = response.message();
+            
+            okhttp3.ResponseBody errorBody = response.errorBody();
+            if (errorBody != null) {
+                try {
+                    String errorBodyString = errorBody.string();
+                    // Parse JSON error message if possible
+                    if (errorBodyString.contains("\"error\"") || errorBodyString.contains("\"message\"")) {
+                        // Try to extract error message from JSON
+                        if (errorBodyString.contains("User not found or inactive")) {
+                            errorMsg = "Tài khoản không tồn tại hoặc đã bị vô hiệu hóa. Vui lòng đăng nhập lại";
+                            prefsHelper.clear();
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                            return;
+                        } else {
+                            errorMsg = "Lỗi: " + errorBodyString;
+                        }
+                    } else {
+                        errorMsg = "Lỗi " + code + ": " + errorBodyString;
+                    }
+                } catch (Exception e) {
+                    errorMsg = "Lỗi " + code + ": " + (message != null ? message : "Không thể đọc thông báo lỗi");
+                }
+            } else {
+                switch (code) {
+                    case 403:
+                        errorMsg = "Bạn không có quyền thực hiện thao tác này";
+                        break;
+                    case 404:
+                        errorMsg = "Sản phẩm không tồn tại";
+                        break;
+                    case 400:
+                        errorMsg = "Dữ liệu không hợp lệ";
+                        break;
+                    case 500:
+                        errorMsg = "Lỗi server. Vui lòng thử lại sau";
+                        break;
+                    default:
+                        errorMsg = "Lỗi " + code + ": " + (message != null ? message : "Đã xảy ra lỗi");
+                }
+            }
+            
+            Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Đã xảy ra lỗi không xác định", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
