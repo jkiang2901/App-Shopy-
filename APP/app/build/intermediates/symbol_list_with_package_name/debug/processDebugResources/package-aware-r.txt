@@ -3234,6 +3234,7 @@ id bounceBoth
 id bounceEnd
 id bounceStart
 id btnAddToCart
+id btnCancelOrder
 id btnCheckout
 id btnDecrease
 id btnIncrease
@@ -3243,6 +3244,7 @@ id btnRegister
 id btnRemove
 id btnSave
 id btnUpdateStatus
+id btnViewDetail
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3395,10 +3397,12 @@ id italic
 id item_touch_helper_previous_elevation
 id ivLogo
 id ivProduct
+id ivProductImage
 id jumpToEnd
 id jumpToStart
 id labeled
 id layout
+id layoutDiscount
 id left
 id leftToRight
 id legacy
@@ -3542,6 +3546,7 @@ id rbInactive
 id rbPercentage
 id rectangles
 id recyclerViewCart
+id recyclerViewItems
 id recyclerViewOrders
 id recyclerViewProducts
 id report_drawn
@@ -3677,17 +3682,23 @@ id tvBrand
 id tvCategory
 id tvColor
 id tvDate
+id tvDeliveryAddress
 id tvDescription
+id tvDiscountAmount
+id tvFinalAmount
 id tvItemCount
 id tvName
 id tvOrderId
 id tvPaymentLabel
+id tvPaymentMethod
 id tvPrice
 id tvProductName
+id tvProductPrice
 id tvQuantity
 id tvSize
 id tvStatus
 id tvSubtitle
+id tvSubtotal
 id tvTitle
 id tvTotal
 id tvTotalAmount
@@ -3830,6 +3841,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_customer_cart
 layout activity_customer_checkout
+layout activity_customer_order_detail
 layout activity_customer_order_history
 layout activity_customer_product_detail
 layout activity_customer_product_list
@@ -3858,6 +3870,7 @@ layout dialog_add_edit_user
 layout dialog_add_inventory
 layout item_cart
 layout item_order
+layout item_order_product
 layout item_product
 layout m3_alert_dialog
 layout m3_alert_dialog_actions

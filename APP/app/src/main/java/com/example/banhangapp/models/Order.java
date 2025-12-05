@@ -2,6 +2,7 @@ package com.example.banhangapp.models;
 
 import com.example.banhangapp.utils.CustomerIdDeserializer;
 import com.example.banhangapp.utils.ProductIdDeserializer;
+import com.example.banhangapp.utils.SellerIdDeserializer;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
@@ -16,7 +17,8 @@ public class Order {
     private CustomerInfo customerId;
     
     @SerializedName("sellerId")
-    private String sellerId;  // Seller ID as string (for backend compatibility)
+    @JsonAdapter(SellerIdDeserializer.class)
+    private String sellerId;  // Seller ID as string (can be string or object in JSON)
     
     @SerializedName("items")
     private List<OrderItem> items;

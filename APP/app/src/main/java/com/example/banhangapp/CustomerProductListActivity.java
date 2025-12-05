@@ -30,6 +30,8 @@ public class CustomerProductListActivity extends AppCompatActivity {
     private List<Product> allProducts = new ArrayList<>();
     private SharedPreferencesHelper prefsHelper;
     private ApiService apiService;
+    private Call<List<Product>> productsCall;
+    private Call<com.example.banhangapp.models.Cart> cartCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,23 +83,31 @@ public class CustomerProductListActivity extends AppCompatActivity {
         
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                filterProducts(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText == null || newText.trim().isEmpty()) {
-                    adapter.updateProducts(allProducts);
-                } else {
-                    filterProducts(newText);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (!isFinishing() && !isDestroyed()) {
+                        filterProducts(query);
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if (!isFinishing() && !isDestroyed()) {
+                        if (newText == null || newText.trim().isEmpty()) {
+                            if (adapter != null) {
+                                adapter.updateProducts(allProducts);
+                            }
+                        } else {
+                            filterProducts(newText);
+                        }
+                    }
+                    return true;
+                }
+            });
+        }
 
         return true;
     }
@@ -125,13 +135,23 @@ public class CustomerProductListActivity extends AppCompatActivity {
 
     private void loadProducts() {
         Map<String, String> params = new HashMap<>();
-        Call<List<Product>> call = apiService.getProducts(params);
+        productsCall = apiService.getProducts(params);
         
-        call.enqueue(new Callback<List<Product>>() {
+        productsCall.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                // Check if activity is still valid
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 // Run on main thread
                 runOnUiThread(() -> {
+                    // Double check after runOnUiThread
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+                    
                     if (response.isSuccessful() && response.body() != null) {
                         try {
                             allProducts = response.body();
@@ -176,14 +196,25 @@ public class CustomerProductListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-                String errorMsg = "Lỗi kết nối: ";
+                // Check if activity is still valid
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
+                // Create final variable for lambda
+                final String errorMsg;
                 if (t.getMessage() != null) {
-                    errorMsg += t.getMessage();
+                    errorMsg = "Lỗi kết nối: " + t.getMessage();
                 } else {
-                    errorMsg += "Không thể kết nối đến server";
+                    errorMsg = "Lỗi kết nối: Không thể kết nối đến server";
                 }
                 android.util.Log.e("ProductList", errorMsg, t);
-                Toast.makeText(CustomerProductListActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                
+                runOnUiThread(() -> {
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(CustomerProductListActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                });
                 t.printStackTrace();
             }
         });
@@ -218,16 +249,24 @@ public class CustomerProductListActivity extends AppCompatActivity {
         android.util.Log.d("ProductList", "Adding product to cart: " + product.getName() + " (ID: " + product.getId() + ")");
         
         ApiService.CartItemRequest request = new ApiService.CartItemRequest(product.getId(), 1);
-        Call<com.example.banhangapp.models.Cart> call = apiService.addToCart(token, request);
+        cartCall = apiService.addToCart(token, request);
         
-        call.enqueue(new Callback<com.example.banhangapp.models.Cart>() {
+        cartCall.enqueue(new Callback<com.example.banhangapp.models.Cart>() {
             @Override
             public void onResponse(Call<com.example.banhangapp.models.Cart> call, Response<com.example.banhangapp.models.Cart> response) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 if (response.isSuccessful() && response.body() != null) {
                     com.example.banhangapp.models.Cart cart = response.body();
                     android.util.Log.d("ProductList", "Product added to cart successfully. Cart has " + 
                         (cart.getItems() != null ? cart.getItems().size() : 0) + " items");
-                    Toast.makeText(CustomerProductListActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> {
+                        if (!isFinishing() && !isDestroyed()) {
+                            Toast.makeText(CustomerProductListActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     handleErrorResponse(response);
                 }
@@ -235,14 +274,24 @@ public class CustomerProductListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<com.example.banhangapp.models.Cart> call, Throwable t) {
-                String errorMsg = "Lỗi kết nối: ";
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
+                // Create final variable for lambda
+                final String errorMsg;
                 if (t.getMessage() != null) {
-                    errorMsg += t.getMessage();
+                    errorMsg = "Lỗi kết nối: " + t.getMessage();
                 } else {
-                    errorMsg += "Không thể kết nối đến server";
+                    errorMsg = "Lỗi kết nối: Không thể kết nối đến server";
                 }
                 android.util.Log.e("ProductList", "Add to cart network error", t);
-                Toast.makeText(CustomerProductListActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                
+                runOnUiThread(() -> {
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(CustomerProductListActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                });
                 t.printStackTrace();
             }
         });
@@ -314,6 +363,19 @@ public class CustomerProductListActivity extends AppCompatActivity {
             Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(this, "Đã xảy ra lỗi không xác định", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        // Cancel ongoing network calls
+        if (productsCall != null && !productsCall.isCanceled()) {
+            productsCall.cancel();
+        }
+        if (cartCall != null && !cartCall.isCanceled()) {
+            cartCall.cancel();
         }
     }
 }

@@ -137,7 +137,52 @@
             android:insetLeft="16dp"
             android:insetTop="10dp"
             android:insetRight="16dp"
-            android:insetBottom="10dp" />
+            android:insetBottom="10dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="❌ Hủy đơn"
+                android:textSize="14sp"
+                android:backgroundTint="@color/error"
+                app:cornerRadius="8dp"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white"
+                android:minWidth="0dp"
+                android:insetLeft="16dp"
+                android:insetTop="10dp"
+                android:insetRight="16dp"
+                android:insetBottom="10dp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👁️ Xem chi tiết"
+                android:textSize="14sp"
+                android:backgroundTint="@color/primary"
+                app:cornerRadius="8dp"
+                app:icon="@android:drawable/ic_menu_view"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white"
+                android:minWidth="0dp"
+                android:insetLeft="16dp"
+                android:insetTop="10dp"
+                android:insetRight="16dp"
+                android:insetBottom="10dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

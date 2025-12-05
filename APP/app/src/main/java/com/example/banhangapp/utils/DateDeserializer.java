@@ -21,23 +21,33 @@ public class DateDeserializer implements JsonDeserializer<Date> {
 
     @Override
     public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        String dateString = json.getAsString();
-        if (dateString == null || dateString.isEmpty()) {
+        try {
+            if (json == null || json.isJsonNull()) {
+                return null;
+            }
+            
+            String dateString = json.getAsString();
+            if (dateString == null || dateString.isEmpty()) {
+                return null;
+            }
+
+            for (String format : DATE_FORMATS) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    return sdf.parse(dateString);
+                } catch (ParseException e) {
+                    // Try next format
+                }
+            }
+
+            // If all formats fail, return null
+            android.util.Log.w("DateDeserializer", "Could not parse date: " + dateString);
+            return null;
+        } catch (Exception e) {
+            android.util.Log.e("DateDeserializer", "Error deserializing date", e);
             return null;
         }
-
-        for (String format : DATE_FORMATS) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
-                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-                return sdf.parse(dateString);
-            } catch (ParseException e) {
-                // Try next format
-            }
-        }
-
-        // If all formats fail, return null or current date
-        return null;
     }
 }
 

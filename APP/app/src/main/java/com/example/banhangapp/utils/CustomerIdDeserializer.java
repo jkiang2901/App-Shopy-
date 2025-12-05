@@ -10,19 +10,26 @@ import java.lang.reflect.Type;
 public class CustomerIdDeserializer implements JsonDeserializer<CustomerInfo> {
     @Override
     public CustomerInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        if (json.isJsonNull()) {
+        try {
+            if (json == null || json.isJsonNull()) {
+                return null;
+            }
+            if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isString()) {
+                // If it's a string ID, create a CustomerInfo with just the ID
+                CustomerInfo customerInfo = new CustomerInfo();
+                customerInfo.setId(json.getAsString());
+                return customerInfo;
+            }
+            if (json.isJsonObject()) {
+                return context.deserialize(json, CustomerInfo.class);
+            }
+            // If it's an array or other type, return null
+            return null;
+        } catch (Exception e) {
+            // Return null on any parsing error instead of throwing
+            android.util.Log.e("CustomerIdDeserializer", "Error deserializing CustomerId: " + (json != null ? json.toString() : "null"), e);
             return null;
         }
-        if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isString()) {
-            // If it's a string ID, create a CustomerInfo with just the ID
-            CustomerInfo customerInfo = new CustomerInfo();
-            customerInfo.setId(json.getAsString());
-            return customerInfo;
-        }
-        if (json.isJsonObject()) {
-            return context.deserialize(json, CustomerInfo.class);
-        }
-        return null;
     }
 }
 

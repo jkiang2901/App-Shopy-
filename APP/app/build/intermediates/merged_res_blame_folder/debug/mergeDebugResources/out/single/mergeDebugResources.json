@@ -24,10 +24,6 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\anim\\slide_in_up.xml"
     },
     {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_report.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_report.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\drawable_gradient_background.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\drawable\\gradient_background.xml"
     },
@@ -52,14 +48,6 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\dialog_add_edit_user.xml"
     },
     {
-        "merged": "com.example.banhangapp-debug-34:/layout_activity_register.xml.flat",
-        "source": "com.example.banhangapp-main-36:/layout/activity_register.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_seller_manage_customers.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_manage_customers.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_dialog_add_inventory.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\dialog_add_inventory.xml"
     },
@@ -76,6 +64,10 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\drawable\\ic_lock.xml"
     },
     {
+        "merged": "com.example.banhangapp-debug-34:/layout_item_order.xml.flat",
+        "source": "com.example.banhangapp-main-36:/layout/item_order.xml"
+    },
+    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\drawable_search_background.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\drawable\\search_background.xml"
     },
@@ -88,16 +80,12 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_register.xml"
     },
     {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_seller_manage_inventory.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_manage_inventory.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_seller_statistics.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_statistics.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_customer_profile.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_customer_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_customer_order_detail.xml.flat",
+        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_customer_order_detail.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\drawable_button_secondary.xml.flat",
@@ -114,6 +102,10 @@
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_product.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_product.xml"
+    },
+    {
+        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_order_product.xml.flat",
+        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_order_product.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_order.xml.flat",
@@ -136,40 +128,16 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\dialog_add_edit_promotion.xml"
     },
     {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_user.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_user.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_seller_manage_promotions.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_manage_promotions.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_inventory.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_inventory.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_customer_checkout.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_customer_checkout.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_promotion.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_promotion.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_main.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_seller_track_sales.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_track_sales.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\menu_customer_menu.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\menu\\customer_menu.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_seller_dashboard.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_seller_dashboard.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_customer_cart.xml.flat",

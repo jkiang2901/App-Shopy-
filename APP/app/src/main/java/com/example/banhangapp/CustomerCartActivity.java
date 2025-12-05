@@ -29,6 +29,9 @@ public class CustomerCartActivity extends AppCompatActivity {
     private ApiService apiService;
     private Cart cart;
     private CartAdapter adapter;
+    private Call<Cart> cartCall;
+    private Call<Cart> updateCall;
+    private Call<Cart> removeCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +94,15 @@ public class CustomerCartActivity extends AppCompatActivity {
             return;
         }
         
-        Call<Cart> call = apiService.getCart(token);
+        cartCall = apiService.getCart(token);
         
-        call.enqueue(new Callback<Cart>() {
+        cartCall.enqueue(new Callback<Cart>() {
             @Override
             public void onResponse(Call<Cart> call, Response<Cart> response) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 if (response.isSuccessful() && response.body() != null) {
                     cart = response.body();
                     android.util.Log.d("CartActivity", "Cart loaded with " + 
@@ -111,14 +118,22 @@ public class CustomerCartActivity extends AppCompatActivity {
                         errorMsg += " - " + response.message();
                     }
                     android.util.Log.e("CartActivity", errorMsg);
-                    Toast.makeText(CustomerCartActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(CustomerCartActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Cart> call, Throwable t) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 android.util.Log.e("CartActivity", "Network error loading cart", t);
-                Toast.makeText(CustomerCartActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                if (!isFinishing() && !isDestroyed()) {
+                    Toast.makeText(CustomerCartActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
                 t.printStackTrace();
             }
         });
@@ -175,21 +190,29 @@ public class CustomerCartActivity extends AppCompatActivity {
         java.util.Map<String, Integer> quantityMap = new java.util.HashMap<>();
         quantityMap.put("quantity", newQuantity);
         
-        Call<Cart> call = apiService.updateCartItem(token, item.getProductId().getId(), quantityMap);
-        call.enqueue(new Callback<Cart>() {
+        updateCall = apiService.updateCartItem(token, item.getProductId().getId(), quantityMap);
+        updateCall.enqueue(new Callback<Cart>() {
             @Override
             public void onResponse(Call<Cart> call, Response<Cart> response) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 if (response.isSuccessful() && response.body() != null) {
                     cart = response.body();
                     updateUI();
                 } else {
-                    Toast.makeText(CustomerCartActivity.this, "Lỗi cập nhật số lượng", Toast.LENGTH_SHORT).show();
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(CustomerCartActivity.this, "Lỗi cập nhật số lượng", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Cart> call, Throwable t) {
-                Toast.makeText(CustomerCartActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                if (!isFinishing() && !isDestroyed()) {
+                    Toast.makeText(CustomerCartActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -206,23 +229,37 @@ public class CustomerCartActivity extends AppCompatActivity {
             return;
         }
         
-        Call<Cart> call = apiService.removeFromCart(token, item.getProductId().getId());
-        call.enqueue(new Callback<Cart>() {
+        removeCall = apiService.removeFromCart(token, item.getProductId().getId());
+        removeCall.enqueue(new Callback<Cart>() {
             @Override
             public void onResponse(Call<Cart> call, Response<Cart> response) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 if (response.isSuccessful() && response.body() != null) {
                     cart = response.body();
-                    Toast.makeText(CustomerCartActivity.this, "Đã xóa khỏi giỏ hàng", Toast.LENGTH_SHORT).show();
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(CustomerCartActivity.this, "Đã xóa khỏi giỏ hàng", Toast.LENGTH_SHORT).show();
+                    }
                     updateUI(); // Update UI with new cart
                 } else {
-                    Toast.makeText(CustomerCartActivity.this, "Lỗi xóa sản phẩm", Toast.LENGTH_SHORT).show();
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(CustomerCartActivity.this, "Lỗi xóa sản phẩm", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Cart> call, Throwable t) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 android.util.Log.e("CartActivity", "Error removing item", t);
-                Toast.makeText(CustomerCartActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                if (!isFinishing() && !isDestroyed()) {
+                    Toast.makeText(CustomerCartActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -234,6 +271,22 @@ public class CustomerCartActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        // Cancel ongoing network calls
+        if (cartCall != null && !cartCall.isCanceled()) {
+            cartCall.cancel();
+        }
+        if (updateCall != null && !updateCall.isCanceled()) {
+            updateCall.cancel();
+        }
+        if (removeCall != null && !removeCall.isCanceled()) {
+            removeCall.cancel();
+        }
     }
 }
 

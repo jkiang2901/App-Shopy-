@@ -22,7 +22,13 @@ public final class ItemOrderBinding implements ViewBinding {
   private final MaterialCardView rootView;
 
   @NonNull
+  public final MaterialButton btnCancelOrder;
+
+  @NonNull
   public final MaterialButton btnUpdateStatus;
+
+  @NonNull
+  public final MaterialButton btnViewDetail;
 
   @NonNull
   public final TextView tvDate;
@@ -40,11 +46,14 @@ public final class ItemOrderBinding implements ViewBinding {
   public final TextView tvTotalAmount;
 
   private ItemOrderBinding(@NonNull MaterialCardView rootView,
-      @NonNull MaterialButton btnUpdateStatus, @NonNull TextView tvDate,
+      @NonNull MaterialButton btnCancelOrder, @NonNull MaterialButton btnUpdateStatus,
+      @NonNull MaterialButton btnViewDetail, @NonNull TextView tvDate,
       @NonNull TextView tvItemCount, @NonNull TextView tvOrderId, @NonNull Chip tvStatus,
       @NonNull TextView tvTotalAmount) {
     this.rootView = rootView;
+    this.btnCancelOrder = btnCancelOrder;
     this.btnUpdateStatus = btnUpdateStatus;
+    this.btnViewDetail = btnViewDetail;
     this.tvDate = tvDate;
     this.tvItemCount = tvItemCount;
     this.tvOrderId = tvOrderId;
@@ -79,9 +88,21 @@ public final class ItemOrderBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnCancelOrder;
+      MaterialButton btnCancelOrder = ViewBindings.findChildViewById(rootView, id);
+      if (btnCancelOrder == null) {
+        break missingId;
+      }
+
       id = R.id.btnUpdateStatus;
       MaterialButton btnUpdateStatus = ViewBindings.findChildViewById(rootView, id);
       if (btnUpdateStatus == null) {
+        break missingId;
+      }
+
+      id = R.id.btnViewDetail;
+      MaterialButton btnViewDetail = ViewBindings.findChildViewById(rootView, id);
+      if (btnViewDetail == null) {
         break missingId;
       }
 
@@ -115,8 +136,8 @@ public final class ItemOrderBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemOrderBinding((MaterialCardView) rootView, btnUpdateStatus, tvDate, tvItemCount,
-          tvOrderId, tvStatus, tvTotalAmount);
+      return new ItemOrderBinding((MaterialCardView) rootView, btnCancelOrder, btnUpdateStatus,
+          btnViewDetail, tvDate, tvItemCount, tvOrderId, tvStatus, tvTotalAmount);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

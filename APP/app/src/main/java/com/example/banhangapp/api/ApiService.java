@@ -85,6 +85,14 @@ public interface ApiService {
     @PUT("api/orders/{id}/status")
     Call<Order> updateOrderStatus(@Header("Authorization") String token, @Path("id") String id, @Body Map<String, String> status);
     
+    // Customer cancel order endpoint (if available)
+    @PUT("api/orders/{id}/cancel")
+    Call<Order> cancelOrder(@Header("Authorization") String token, @Path("id") String id);
+    
+    // Alternative: DELETE endpoint for canceling order
+    @DELETE("api/orders/{id}")
+    Call<Map<String, String>> deleteOrder(@Header("Authorization") String token, @Path("id") String id);
+    
     // ========== Promotions ==========
     @GET("api/promotions")
     Call<List<Promotion>> getPromotions(@Header("Authorization") String token);

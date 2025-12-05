@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -25,16 +26,20 @@ public final class ActivityCustomerOrderHistoryBinding implements ViewBinding {
   public final LinearLayout emptyState;
 
   @NonNull
+  public final ProgressBar progressBar;
+
+  @NonNull
   public final RecyclerView recyclerViewOrders;
 
   @NonNull
   public final MaterialToolbar toolbar;
 
   private ActivityCustomerOrderHistoryBinding(@NonNull CoordinatorLayout rootView,
-      @NonNull LinearLayout emptyState, @NonNull RecyclerView recyclerViewOrders,
-      @NonNull MaterialToolbar toolbar) {
+      @NonNull LinearLayout emptyState, @NonNull ProgressBar progressBar,
+      @NonNull RecyclerView recyclerViewOrders, @NonNull MaterialToolbar toolbar) {
     this.rootView = rootView;
     this.emptyState = emptyState;
+    this.progressBar = progressBar;
     this.recyclerViewOrders = recyclerViewOrders;
     this.toolbar = toolbar;
   }
@@ -72,6 +77,12 @@ public final class ActivityCustomerOrderHistoryBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.progressBar;
+      ProgressBar progressBar = ViewBindings.findChildViewById(rootView, id);
+      if (progressBar == null) {
+        break missingId;
+      }
+
       id = R.id.recyclerViewOrders;
       RecyclerView recyclerViewOrders = ViewBindings.findChildViewById(rootView, id);
       if (recyclerViewOrders == null) {
@@ -85,7 +96,7 @@ public final class ActivityCustomerOrderHistoryBinding implements ViewBinding {
       }
 
       return new ActivityCustomerOrderHistoryBinding((CoordinatorLayout) rootView, emptyState,
-          recyclerViewOrders, toolbar);
+          progressBar, recyclerViewOrders, toolbar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -26,6 +26,8 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
     private ApiService apiService;
     private SharedPreferencesHelper prefsHelper;
     private Product currentProduct;
+    private Call<Product> productCall;
+    private Call<com.example.banhangapp.models.Cart> cartCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +80,14 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
     }
 
     private void loadProduct() {
-        Call<Product> call = apiService.getProductById(productId);
-        call.enqueue(new Callback<Product>() {
+        productCall = apiService.getProductById(productId);
+        productCall.enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 if (response.isSuccessful() && response.body() != null) {
                     Product product = response.body();
                     displayProduct(product);
@@ -90,7 +96,9 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
-                Toast.makeText(CustomerProductDetailActivity.this, "Lỗi tải sản phẩm", Toast.LENGTH_SHORT).show();
+                if (!isFinishing() && !isDestroyed()) {
+                    Toast.makeText(CustomerProductDetailActivity.this, "Lỗi tải sản phẩm", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -179,13 +187,22 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
         
         ApiService.CartItemRequest request = new ApiService.CartItemRequest(currentProduct.getId(), 1);
         
-        Call<com.example.banhangapp.models.Cart> call = apiService.addToCart(token, request);
+        cartCall = apiService.addToCart(token, request);
         
-        call.enqueue(new Callback<com.example.banhangapp.models.Cart>() {
+        cartCall.enqueue(new Callback<com.example.banhangapp.models.Cart>() {
             @Override
             public void onResponse(Call<com.example.banhangapp.models.Cart> call, Response<com.example.banhangapp.models.Cart> response) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
                 // Run on main thread
                 runOnUiThread(() -> {
+                    // Double check after runOnUiThread
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+                    
                     // Re-enable button
                     if (btnAddToCart != null) {
                         btnAddToCart.setEnabled(true);
@@ -202,20 +219,31 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<com.example.banhangapp.models.Cart> call, Throwable t) {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                
+                // Create final variable for lambda
+                final String errorMsg;
+                if (t.getMessage() != null) {
+                    errorMsg = "Lỗi kết nối: " + t.getMessage();
+                } else {
+                    errorMsg = "Lỗi kết nối: Không thể kết nối đến server";
+                }
+                
                 // Run on main thread
                 runOnUiThread(() -> {
+                    // Double check after runOnUiThread
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+                    
                     // Re-enable button
                     if (btnAddToCart != null) {
                         btnAddToCart.setEnabled(true);
                         btnAddToCart.setText("🛒 Thêm vào giỏ hàng");
                     }
                     
-                    String errorMsg = "Lỗi kết nối: ";
-                    if (t.getMessage() != null) {
-                        errorMsg += t.getMessage();
-                    } else {
-                        errorMsg += "Không thể kết nối đến server";
-                    }
                     Toast.makeText(CustomerProductDetailActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                 });
             }
@@ -288,6 +316,19 @@ public class CustomerProductDetailActivity extends AppCompatActivity {
             Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(this, "Đã xảy ra lỗi không xác định", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        // Cancel ongoing network calls
+        if (productCall != null && !productCall.isCanceled()) {
+            productCall.cancel();
+        }
+        if (cartCall != null && !cartCall.isCanceled()) {
+            cartCall.cancel();
         }
     }
 }

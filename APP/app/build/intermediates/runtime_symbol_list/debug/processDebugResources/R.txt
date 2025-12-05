@@ -3233,6 +3233,7 @@ int id bounceBoth 0x7f080066
 int id bounceEnd 0x7f080067
 int id bounceStart 0x7f080068
 int id btnAddToCart 0x7f080069
+int id btnCancelOrder 0x7f080273
 int id btnCheckout 0x7f08006a
 int id btnDecrease 0x7f08006b
 int id btnIncrease 0x7f08006e
@@ -3242,6 +3243,7 @@ int id btnRegister 0x7f080071
 int id btnRemove 0x7f080073
 int id btnSave 0x7f080075
 int id btnUpdateStatus 0x7f080076
+int id btnViewDetail 0x7f080269
 int id buttonPanel 0x7f080077
 int id cache_measures 0x7f080078
 int id callMeasure 0x7f080079
@@ -3394,10 +3396,12 @@ int id italic 0x7f080112
 int id item_touch_helper_previous_elevation 0x7f080113
 int id ivLogo 0x7f080114
 int id ivProduct 0x7f080115
+int id ivProductImage 0x7f08026a
 int id jumpToEnd 0x7f080116
 int id jumpToStart 0x7f080117
 int id labeled 0x7f080118
 int id layout 0x7f080119
+int id layoutDiscount 0x7f08026b
 int id left 0x7f08011a
 int id leftToRight 0x7f08011b
 int id legacy 0x7f08011c
@@ -3541,6 +3545,7 @@ int id rbInactive 0x7f0801a6
 int id rbPercentage 0x7f0801a7
 int id rectangles 0x7f0801a9
 int id recyclerViewCart 0x7f0801ab
+int id recyclerViewItems 0x7f08026c
 int id recyclerViewOrders 0x7f0801ac
 int id recyclerViewProducts 0x7f0801ad
 int id report_drawn 0x7f0801ae
@@ -3676,17 +3681,23 @@ int id tvBrand 0x7f080231
 int id tvCategory 0x7f080232
 int id tvColor 0x7f080234
 int id tvDate 0x7f080237
+int id tvDeliveryAddress 0x7f08026d
 int id tvDescription 0x7f080239
+int id tvDiscountAmount 0x7f08026e
+int id tvFinalAmount 0x7f08026f
 int id tvItemCount 0x7f08023c
 int id tvName 0x7f08023e
 int id tvOrderId 0x7f080240
 int id tvPaymentLabel 0x7f080241
+int id tvPaymentMethod 0x7f080270
 int id tvPrice 0x7f080243
 int id tvProductName 0x7f080244
+int id tvProductPrice 0x7f080271
 int id tvQuantity 0x7f080245
 int id tvSize 0x7f080249
 int id tvStatus 0x7f08024a
 int id tvSubtitle 0x7f08024b
+int id tvSubtotal 0x7f080272
 int id tvTitle 0x7f08024c
 int id tvTotal 0x7f08024d
 int id tvTotalAmount 0x7f08024e
@@ -3829,6 +3840,7 @@ int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
 int layout activity_customer_cart 0x7f0b001c
 int layout activity_customer_checkout 0x7f0b001d
+int layout activity_customer_order_detail 0x7f0b0082
 int layout activity_customer_order_history 0x7f0b001e
 int layout activity_customer_product_detail 0x7f0b001f
 int layout activity_customer_product_list 0x7f0b0020
@@ -3857,6 +3869,7 @@ int layout dialog_add_edit_user 0x7f0b003c
 int layout dialog_add_inventory 0x7f0b003d
 int layout item_cart 0x7f0b003e
 int layout item_order 0x7f0b0040
+int layout item_order_product 0x7f0b0083
 int layout item_product 0x7f0b0041
 int layout m3_alert_dialog 0x7f0b0045
 int layout m3_alert_dialog_actions 0x7f0b0046
