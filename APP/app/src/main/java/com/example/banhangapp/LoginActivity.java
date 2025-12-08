@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.banhangapp.api.ApiService;
@@ -59,6 +60,15 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             overridePendingTransition(R.anim.slide_in_up, R.anim.fade_out);
         });
+        
+        TextView tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        if (tvForgotPassword != null) {
+            tvForgotPassword.setOnClickListener(v -> {
+                AnimationHelper.pulse(v);
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+                overridePendingTransition(R.anim.slide_in_up, R.anim.fade_out);
+            });
+        }
     }
 
     private void animateEntrance() {

@@ -42,6 +42,9 @@
             android:name="com.example.banhangapp.RegisterActivity"
             android:exported="false" />
         <activity
+            android:name="com.example.banhangapp.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.banhangapp.MainActivity"
             android:exported="false" />
         <activity

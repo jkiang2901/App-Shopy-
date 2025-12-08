@@ -48,6 +48,7 @@ int anim mtrl_card_lowers_interpolator 0x7f01002e
 int anim scale_in 0x7f01002f
 int anim slide_in_down 0x7f010030
 int anim slide_in_up 0x7f010031
+int anim slide_out_down 0x7f010032
 int animator design_appbar_state_list_animator 0x7f020000
 int animator design_fab_hide_motion_spec 0x7f020001
 int animator design_fab_show_motion_spec 0x7f020002
@@ -3233,6 +3234,7 @@ int id bounceBoth 0x7f080066
 int id bounceEnd 0x7f080067
 int id bounceStart 0x7f080068
 int id btnAddToCart 0x7f080069
+int id btnBackToLogin 0x7f080274
 int id btnCancelOrder 0x7f080273
 int id btnCheckout 0x7f08006a
 int id btnDecrease 0x7f08006b
@@ -3242,12 +3244,14 @@ int id btnPlaceOrder 0x7f080070
 int id btnRegister 0x7f080071
 int id btnRemove 0x7f080073
 int id btnSave 0x7f080075
+int id btnSendResetLink 0x7f080275
 int id btnUpdateStatus 0x7f080076
 int id btnViewDetail 0x7f080269
 int id buttonPanel 0x7f080077
 int id cache_measures 0x7f080078
 int id callMeasure 0x7f080079
 int id cancel_button 0x7f08007a
+int id cardForgotPassword 0x7f080276
 int id cardImage 0x7f08007c
 int id cardInfo 0x7f08007d
 int id cardLogin 0x7f08007f
@@ -3685,6 +3689,7 @@ int id tvDeliveryAddress 0x7f08026d
 int id tvDescription 0x7f080239
 int id tvDiscountAmount 0x7f08026e
 int id tvFinalAmount 0x7f08026f
+int id tvForgotPassword 0x7f080277
 int id tvItemCount 0x7f08023c
 int id tvName 0x7f08023e
 int id tvOrderId 0x7f080240
@@ -3845,6 +3850,7 @@ int layout activity_customer_order_history 0x7f0b001e
 int layout activity_customer_product_detail 0x7f0b001f
 int layout activity_customer_product_list 0x7f0b0020
 int layout activity_customer_profile 0x7f0b0021
+int layout activity_forgot_password 0x7f0b0084
 int layout activity_login 0x7f0b0022
 int layout activity_main 0x7f0b0023
 int layout activity_register 0x7f0b0024

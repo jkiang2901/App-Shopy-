@@ -49,6 +49,7 @@ anim mtrl_card_lowers_interpolator
 anim scale_in
 anim slide_in_down
 anim slide_in_up
+anim slide_out_down
 animator design_appbar_state_list_animator
 animator design_fab_hide_motion_spec
 animator design_fab_show_motion_spec
@@ -3234,6 +3235,7 @@ id bounceBoth
 id bounceEnd
 id bounceStart
 id btnAddToCart
+id btnBackToLogin
 id btnCancelOrder
 id btnCheckout
 id btnDecrease
@@ -3243,12 +3245,14 @@ id btnPlaceOrder
 id btnRegister
 id btnRemove
 id btnSave
+id btnSendResetLink
 id btnUpdateStatus
 id btnViewDetail
 id buttonPanel
 id cache_measures
 id callMeasure
 id cancel_button
+id cardForgotPassword
 id cardImage
 id cardInfo
 id cardLogin
@@ -3686,6 +3690,7 @@ id tvDeliveryAddress
 id tvDescription
 id tvDiscountAmount
 id tvFinalAmount
+id tvForgotPassword
 id tvItemCount
 id tvName
 id tvOrderId
@@ -3846,6 +3851,7 @@ layout activity_customer_order_history
 layout activity_customer_product_detail
 layout activity_customer_product_list
 layout activity_customer_profile
+layout activity_forgot_password
 layout activity_login
 layout activity_main
 layout activity_register

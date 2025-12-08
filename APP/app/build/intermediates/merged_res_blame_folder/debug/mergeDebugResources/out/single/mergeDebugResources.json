@@ -64,12 +64,16 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\drawable\\ic_lock.xml"
     },
     {
-        "merged": "com.example.banhangapp-debug-34:/layout_item_order.xml.flat",
-        "source": "com.example.banhangapp-main-36:/layout/item_order.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\drawable_search_background.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\drawable\\search_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\anim_slide_out_down.xml.flat",
+        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\anim\\slide_out_down.xml"
+    },
+    {
+        "merged": "com.example.banhangapp-debug-34:/layout_activity_login.xml.flat",
+        "source": "com.example.banhangapp-main-36:/layout/activity_login.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\anim_fade_out.xml.flat",
@@ -78,6 +82,10 @@
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_register.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_forgot_password.xml.flat",
+        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_forgot_password.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_activity_customer_profile.xml.flat",
@@ -104,12 +112,12 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_product.xml"
     },
     {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_order_product.xml.flat",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_order_product.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_order.xml.flat",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_order.xml"
+    },
+    {
+        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\layout_item_order_product.xml.flat",
+        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\item_order_product.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-debug-34:\\drawable_placeholder_image.xml.flat",

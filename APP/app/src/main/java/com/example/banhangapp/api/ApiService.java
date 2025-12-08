@@ -15,6 +15,12 @@ public interface ApiService {
     @POST("api/auth/login")
     Call<AuthResponse> login(@Body LoginRequest request);
     
+    @POST("api/auth/forgot-password")
+    Call<Map<String, String>> forgotPassword(@Body ForgotPasswordRequest request);
+    
+    @POST("api/auth/reset-password")
+    Call<Map<String, String>> resetPassword(@Body ResetPasswordRequest request);
+    
     // ========== Users ==========
     @GET("api/users/me")
     Call<User> getCurrentUser(@Header("Authorization") String token);
@@ -162,6 +168,26 @@ public interface ApiService {
             this.phone = phone;
             this.address = address;
             this.role = role;
+        }
+    }
+    
+    class ForgotPasswordRequest {
+        String email;
+        
+        public ForgotPasswordRequest(String email) {
+            this.email = email;
+        }
+    }
+    
+    class ResetPasswordRequest {
+        String email;
+        String token;
+        String newPassword;
+        
+        public ResetPasswordRequest(String email, String token, String newPassword) {
+            this.email = email;
+            this.token = token;
+            this.newPassword = newPassword;
         }
     }
     
