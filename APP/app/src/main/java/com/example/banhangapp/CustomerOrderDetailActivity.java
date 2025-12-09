@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CustomerOrderDetailActivity extends AppCompatActivity {
-    private TextView tvOrderId, tvDate, tvTotalAmount, tvDiscountAmount, tvFinalAmount;
+    private TextView tvOrderId, tvDate, tvTotalAmount, tvDiscountAmount, tvFinalAmount, tvTotalQuantity;
     private TextView tvPaymentMethod, tvDeliveryAddress;
     private com.google.android.material.chip.Chip tvStatus;
     private RecyclerView recyclerViewItems;
@@ -67,6 +67,7 @@ public class CustomerOrderDetailActivity extends AppCompatActivity {
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         tvDiscountAmount = findViewById(R.id.tvDiscountAmount);
         tvFinalAmount = findViewById(R.id.tvFinalAmount);
+        tvTotalQuantity = findViewById(R.id.tvTotalQuantity);
         tvPaymentMethod = findViewById(R.id.tvPaymentMethod);
         tvDeliveryAddress = findViewById(R.id.tvDeliveryAddress);
         recyclerViewItems = findViewById(R.id.recyclerViewItems);
@@ -222,6 +223,16 @@ public class CustomerOrderDetailActivity extends AppCompatActivity {
 
         if (tvTotalAmount != null) {
             tvTotalAmount.setText(format.format(order.getTotalAmount()));
+        }
+
+        if (tvTotalQuantity != null) {
+            int totalQuantity = 0;
+            if (order.getItems() != null) {
+                for (Order.OrderItem item : order.getItems()) {
+                    totalQuantity += item.getQuantity();
+                }
+            }
+            tvTotalQuantity.setText(String.valueOf(totalQuantity));
         }
 
         if (tvDiscountAmount != null) {

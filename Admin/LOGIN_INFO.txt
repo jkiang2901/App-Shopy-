@@ -20,7 +20,7 @@ HƯỚNG DẪN SỬ DỤNG
 4. Sau khi đăng nhập, bạn có thể:
    - Quản lý khách hàng
    - Quản lý sản phẩm
-   - Theo dõi hoạt động và báo cáo
+   - Theo dõi doanh thu
 
 ===========================================
 TẠO LẠI ADMIN USER (nếu cần)

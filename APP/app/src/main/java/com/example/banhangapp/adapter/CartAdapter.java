@@ -83,8 +83,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         private TextView productName;
         private TextView productPrice;
         private TextView productQuantity;
-        private com.google.android.material.button.MaterialButton btnDecrease;
-        private com.google.android.material.button.MaterialButton btnIncrease;
+        private TextView btnDecrease;
+        private TextView btnIncrease;
         private com.google.android.material.button.MaterialButton btnRemove;
 
         public CartViewHolder(@NonNull View itemView) {
@@ -119,6 +119,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     
                     if (productQuantity != null) {
                         productQuantity.setText(String.valueOf(cartItem.getQuantity()));
+                        productQuantity.setVisibility(View.VISIBLE);
+                        productQuantity.setAlpha(1.0f);
+                        android.util.Log.d("CartAdapter", "productQuantity set to: " + cartItem.getQuantity());
                     } else {
                         android.util.Log.e("CartAdapter", "productQuantity TextView is null!");
                     }
@@ -135,20 +138,88 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     productImage.setImageResource(R.drawable.placeholder_image);
                 }
 
-                // Quantity controls
-                btnDecrease.setOnClickListener(v -> {
-                    int newQuantity = Math.max(1, cartItem.getQuantity() - 1);
-                    if (onQuantityChangeListener != null) {
-                        onQuantityChangeListener.onQuantityChange(cartItem, newQuantity);
-                    }
-                });
+                // Quantity controls - Đảm bảo nút + và - luôn hiển thị và hoạt động
+                if (btnDecrease != null) {
+                    btnDecrease.setVisibility(View.VISIBLE);
+                    btnDecrease.setEnabled(true);
+                    btnDecrease.setClickable(true);
+                    btnDecrease.setOnClickListener(v -> {
+                        int position = getBindingAdapterPosition();
+                        if (position == RecyclerView.NO_POSITION) {
+                            return;
+                        }
 
-                btnIncrease.setOnClickListener(v -> {
-                    int newQuantity = cartItem.getQuantity() + 1;
-                    if (onQuantityChangeListener != null) {
-                        onQuantityChangeListener.onQuantityChange(cartItem, newQuantity);
-                    }
-                });
+                        int newQuantity = Math.max(1, cartItem.getQuantity() - 1);
+                        if (newQuantity == cartItem.getQuantity()) {
+                            return;
+                        }
+
+                        // Update UI immediately for better feedback while awaiting API response
+                        cartItem.setQuantity(newQuantity);
+                        productQuantity.setText(String.valueOf(newQuantity));
+                        notifyItemChanged(position);
+
+                        if (onQuantityChangeListener != null) {
+                            onQuantityChangeListener.onQuantityChange(cartItem, newQuantity);
+                        }
+                    });
+                } else {
+                    android.util.Log.e("CartAdapter", "btnDecrease is null!");
+                }
+
+                if (btnIncrease != null) {
+                    btnIncrease.setVisibility(View.VISIBLE);
+                    btnIncrease.setEnabled(true);
+                    btnIncrease.setClickable(true);
+                    btnIncrease.setFocusable(true);
+                    btnIncrease.setAlpha(1.0f);
+                    btnIncrease.setOnClickListener(v -> {
+                        android.util.Log.d("CartAdapter", "btnIncrease clicked!");
+                        int position = getBindingAdapterPosition();
+                        if (position == RecyclerView.NO_POSITION) {
+                            android.util.Log.w("CartAdapter", "Invalid position for btnIncrease click");
+                            return;
+                        }
+
+                        int newQuantity = cartItem.getQuantity() + 1;
+                        android.util.Log.d("CartAdapter", "Increasing quantity from " + cartItem.getQuantity() + " to " + newQuantity);
+                        // Update UI immediately for better feedback while awaiting API response
+                        cartItem.setQuantity(newQuantity);
+                        productQuantity.setText(String.valueOf(newQuantity));
+                        notifyItemChanged(position);
+
+                        if (onQuantityChangeListener != null) {
+                            onQuantityChangeListener.onQuantityChange(cartItem, newQuantity);
+                        }
+                    });
+                    
+                    // Post a runnable to check dimensions after layout
+                    btnIncrease.post(() -> {
+                        android.util.Log.d("CartAdapter", "btnIncrease after layout - visible: " + btnIncrease.getVisibility() + 
+                            ", enabled: " + btnIncrease.isEnabled() + 
+                            ", clickable: " + btnIncrease.isClickable() + 
+                            ", width: " + btnIncrease.getWidth() + 
+                            ", height: " + btnIncrease.getHeight() +
+                            ", alpha: " + btnIncrease.getAlpha() +
+                            ", parent: " + (btnIncrease.getParent() != null ? btnIncrease.getParent().getClass().getSimpleName() : "null"));
+                    });
+                    
+                    android.util.Log.d("CartAdapter", "btnIncrease initialized - visible: " + btnIncrease.getVisibility() + 
+                        ", enabled: " + btnIncrease.isEnabled() + 
+                        ", clickable: " + btnIncrease.isClickable());
+                } else {
+                    android.util.Log.e("CartAdapter", "btnIncrease is null!");
+                }
+                
+                // Also log productQuantity
+                if (productQuantity != null) {
+                    productQuantity.post(() -> {
+                        android.util.Log.d("CartAdapter", "productQuantity after layout - text: " + productQuantity.getText() +
+                            ", width: " + productQuantity.getWidth() +
+                            ", height: " + productQuantity.getHeight() +
+                            ", visible: " + (productQuantity.getVisibility() == View.VISIBLE));
+                    });
+                }
 
                 // Remove button
                 if (btnRemove != null) {

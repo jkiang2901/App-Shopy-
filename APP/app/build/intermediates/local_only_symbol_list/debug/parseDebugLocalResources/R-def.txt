@@ -55,12 +55,16 @@ color text_tertiary
 color warning
 color warning_light
 color white
+drawable bg_quantity_container
+drawable btn_decrease_style
+drawable btn_increase_style
 drawable button_background
 drawable button_primary
 drawable button_secondary
 drawable card_background
 drawable error_image
 drawable gradient_background
+drawable ic_cart
 drawable ic_lock
 drawable placeholder_image
 drawable search_background
@@ -168,6 +172,7 @@ id tvSubtotal
 id tvTitle
 id tvTotal
 id tvTotalAmount
+id tvTotalQuantity
 layout activity_customer_cart
 layout activity_customer_checkout
 layout activity_customer_order_detail

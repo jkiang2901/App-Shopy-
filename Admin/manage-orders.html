@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Quản lý đơn hàng</h1>
+            <div class="nav-actions">
+                <button onclick="window.location.href='dashboard.html'" class="btn btn-secondary">🏠 Về Dashboard</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>🔍 Tìm kiếm:</label>
+                <input type="text" id="searchInput" placeholder="Tìm theo mã đơn, tên khách hàng..." style="padding: 10px 16px; border: 2px solid var(--gray-200); border-radius: 12px; font-size: 15px; min-width: 250px;" onkeyup="loadOrders()">
+            </div>
+            <div class="filter-group">
+                <label>Trạng thái thanh toán:</label>
+                <select id="paymentStatusFilter" onchange="loadOrders()">
+                    <option value="">Tất cả</option>
+                    <option value="pending">Chờ thanh toán</option>
+                    <option value="paid">Đã thanh toán</option>
+                    <option value="confirmed">Đã xác nhận</option>
+                    <option value="cancelled">Đã hủy</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Trạng thái đơn hàng:</label>
+                <select id="orderStatusFilter" onchange="loadOrders()">
+                    <option value="">Tất cả</option>
+                    <option value="pending">Chờ xử lý</option>
+                    <option value="confirmed">Đã xác nhận</option>
+                    <option value="shipping">Đang giao hàng</option>
+                    <option value="delivered">Đã nhận hàng</option>
+                    <option value="cancelled">Đã hủy</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Sản phẩm</th>
+                        <th>Tổng tiền</th>
+                        <th>Thanh toán</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <tr><td colspan="8" class="loading">Đang tải...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Order Detail Modal -->
+    <div id="orderDetailModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close" onclick="closeOrderDetail()">&times;</span>
+            <h2>Chi tiết đơn hàng</h2>
+            <div id="orderDetailContent">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Confirm Order Modal -->
+    <div id="confirmOrderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmModal()">&times;</span>
+            <h2>Xác nhận đơn hàng</h2>
+            <p>Bạn có chắc muốn xác nhận đơn hàng này?</p>
+            <div id="confirmOrderInfo" style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin: 15px 0;"></div>
+            <div class="form-actions">
+                <button type="button" onclick="closeConfirmModal()" class="btn btn-secondary">Hủy</button>
+                <button type="button" onclick="confirmOrderAction()" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Complete Order Modal -->
+    <div id="completeOrderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCompleteModal()">&times;</span>
+            <h2>Hoàn thành đơn hàng</h2>
+            <p>Đánh dấu đơn hàng này là đã hoàn thành? Đơn hàng sẽ được tính vào doanh thu.</p>
+            <div id="completeOrderInfo" style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin: 15px 0;"></div>
+            <div class="form-actions">
+                <button type="button" onclick="closeCompleteModal()" class="btn btn-secondary">Hủy</button>
+                <button type="button" onclick="completeOrderAction()" class="btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">🎉 Hoàn thành</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cancel Order Modal -->
+    <div id="cancelOrderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCancelModal()">&times;</span>
+            <h2>❌ Hủy đơn hàng</h2>
+            <p>Bạn có chắc chắn muốn hủy đơn hàng này?</p>
+            <div id="cancelOrderInfo" style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin: 15px 0;"></div>
+            <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <p style="margin: 0; color: #991b1b; font-weight: 600;">⚠️ Cảnh báo:</p>
+                <p style="margin: 5px 0 0 0; color: #7f1d1d;">Hủy đơn hàng sẽ:</p>
+                <ul style="margin: 5px 0 0 20px; color: #7f1d1d;">
+                    <li>Trả lại số lượng sản phẩm vào kho</li>
+                    <li>Không thể hoàn tác hành động này</li>
+                    <li>Thông báo cho khách hàng về việc hủy đơn</li>
+                </ul>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeCancelModal()" class="btn btn-secondary">Không hủy</button>
+                <button type="button" onclick="cancelOrderAction()" class="btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">❌ Xác nhận hủy</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+    <script>
+        checkAuth();
+        loadOrders();
+        
+        let currentOrderId = null;
+        
+        async function loadOrders() {
+            const search = document.getElementById('searchInput').value;
+            const paymentStatus = document.getElementById('paymentStatusFilter').value;
+            const orderStatus = document.getElementById('orderStatusFilter').value;
+            const token = localStorage.getItem('adminToken');
+            
+            const params = new URLSearchParams();
+            if (search) params.append('search', search);
+            if (paymentStatus) params.append('paymentStatus', paymentStatus);
+            if (orderStatus) params.append('status', orderStatus);
+            
+            try {
+                const response = await apiCall(`/api/orders?${params}`);
+                
+                if (!response.ok) {
+                    throw new Error('Không thể tải danh sách đơn hàng');
+                }
+                
+                const orders = await response.json();
+                displayOrders(Array.isArray(orders) ? orders : (orders.orders || orders.data || []));
+            } catch (error) {
+                document.getElementById('ordersTableBody').innerHTML = 
+                    '<tr><td colspan="8" class="error">Lỗi tải dữ liệu: ' + error.message + '</td></tr>';
+            }
+        }
+        
+        function displayOrders(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty">Không có đơn hàng nào</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = orders.map(order => {
+                const orderId = order._id || order.id || 'N/A';
+                const orderCode = order.orderCode || order.code || orderId.substring(0, 8).toUpperCase();
+                const customerName = (order.customer && order.customer.name) || order.customerName || 'N/A';
+                const customerEmail = (order.customer && order.customer.email) || order.customerEmail || '';
+                // Sử dụng finalAmount (sau khi trừ discount) làm tổng tiền chính
+                const total = order.finalAmount || order.totalAmount || order.total || order.amount || order.price || 0;
+                const totalAmount = order.totalAmount || order.total || order.amount || order.price || 0;
+                const discountAmount = order.discountAmount || 0;
+                const paymentStatus = order.paymentStatus || order.payment_status || 'pending';
+                const orderStatus = order.status || order.orderStatus || 'pending';
+                const createdAt = order.createdAt || order.created_at || order.date || new Date();
+                
+                // Get items info
+                let itemsInfo = 'N/A';
+                if (order.items && order.items.length > 0) {
+                    itemsInfo = `${order.items.length} sản phẩm`;
+                } else if (order.products && order.products.length > 0) {
+                    itemsInfo = `${order.products.length} sản phẩm`;
+                }
+                
+                // Payment status badge
+                let paymentBadge = '';
+                if (paymentStatus === 'paid' || paymentStatus === 'confirmed') {
+                    paymentBadge = '<span class="badge badge-success">Đã thanh toán</span>';
+                } else if (paymentStatus === 'pending') {
+                    paymentBadge = '<span class="badge badge-warning">Chờ thanh toán</span>';
+                } else if (paymentStatus === 'cancelled') {
+                    paymentBadge = '<span class="badge badge-danger">Đã hủy</span>';
+                } else {
+                    paymentBadge = '<span class="badge badge-secondary">' + paymentStatus + '</span>';
+                }
+                
+                // Order status badge
+                let statusBadge = '';
+                if (orderStatus === 'delivered') {
+                    statusBadge = '<span class="badge badge-success">Đã nhận hàng</span>';
+                } else if (orderStatus === 'shipping') {
+                    statusBadge = '<span class="badge badge-info">Đang giao hàng</span>';
+                } else if (orderStatus === 'confirmed') {
+                    statusBadge = '<span class="badge badge-info">Đã xác nhận</span>';
+                } else if (orderStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-warning">Chờ xử lý</span>';
+                } else if (orderStatus === 'cancelled') {
+                    statusBadge = '<span class="badge badge-danger">Đã hủy</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-secondary">' + orderStatus + '</span>';
+                }
+                
+                // Cho phép xác nhận ngay cả khi chưa thanh toán, chỉ cần đơn đang chờ xử lý
+                const canConfirm = orderStatus === 'pending';
+                // Cho phép hoàn thành khi đơn đã được xác nhận (confirmed/shipping), không cần kiểm tra thanh toán
+                const canComplete = orderStatus === 'confirmed' || orderStatus === 'shipping';
+                // Cho phép hủy đơn hàng khi chưa được giao (pending, confirmed, shipping)
+                const canCancel = orderStatus === 'pending' || orderStatus === 'confirmed' || orderStatus === 'shipping';
+                
+                return `
+                    <tr>
+                        <td><strong>#${orderCode}</strong></td>
+                        <td>
+                            <div>${customerName}</div>
+                            ${customerEmail ? `<div style="font-size: 12px; color: var(--gray-600);">${customerEmail}</div>` : ''}
+                        </td>
+                        <td>${itemsInfo}</td>
+                        <td>
+                            <strong>${formatCurrency(total)}</strong>
+                            ${discountAmount > 0 ? `<br><small style="color: #64748b; text-decoration: line-through;">${formatCurrency(totalAmount)}</small><br><small style="color: #10b981;">Giảm: ${formatCurrency(discountAmount)}</small>` : ''}
+                        </td>
+                        <td>${paymentBadge}</td>
+                        <td>${statusBadge}</td>
+                        <td>${formatDate(createdAt)}</td>
+                        <td>
+                            <button onclick="viewOrderDetail('${orderId}')" class="btn btn-sm btn-primary" style="margin-right: 5px;">👁️ Xem</button>
+                            ${canConfirm ? `<button onclick="showConfirmModal('${orderId}')" class="btn btn-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-right: 5px;">✅ Xác nhận</button>` : ''}
+                            ${canComplete ? `<button onclick="showCompleteModal('${orderId}')" class="btn btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; margin-right: 5px;">🎉 Hoàn thành</button>` : ''}
+                            ${canCancel ? `<button onclick="showCancelModal('${orderId}')" class="btn btn-sm" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; margin-right: 5px;">❌ Hủy đơn</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', { 
+                style: 'currency', 
+                currency: 'VND' 
+            }).format(amount);
+        }
+        
+        async function viewOrderDetail(orderId) {
+            const token = localStorage.getItem('adminToken');
+            const content = document.getElementById('orderDetailContent');
+            content.innerHTML = '<div class="spinner"></div>';
+            showModal('orderDetailModal');
+            
+            try {
+                const response = await apiCall(`/api/orders/${orderId}`);
+                
+                if (!response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || `Lỗi ${response.status}`);
+                    } else {
+                        throw new Error(`Lỗi ${response.status}: Không thể tải chi tiết đơn hàng. Vui lòng kiểm tra lại API.`);
+                    }
+                }
+                
+                // Kiểm tra Content-Type trước khi parse JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('API trả về dữ liệu không hợp lệ. Vui lòng kiểm tra lại API endpoint.');
+                }
+                
+                const order = await response.json();
+                displayOrderDetail(order);
+            } catch (error) {
+                console.error('Error loading order detail:', error);
+                content.innerHTML = `<div class="error">Lỗi: ${error.message}</div>`;
+            }
+        }
+        
+        function displayOrderDetail(order) {
+            const content = document.getElementById('orderDetailContent');
+            const orderId = order._id || order.id || 'N/A';
+            const orderCode = order.orderCode || order.code || orderId.substring(0, 8).toUpperCase();
+            const customerName = (order.customer && order.customer.name) || order.customerName || 'N/A';
+            const customerEmail = (order.customer && order.customer.email) || order.customerEmail || '';
+            const customerPhone = (order.customer && order.customer.phone) || order.customerPhone || '';
+            const customerAddress = (order.customer && order.customer.address) || order.shippingAddress || order.address || '';
+            const paymentStatus = order.paymentStatus || order.payment_status || 'pending';
+            const orderStatus = order.status || order.orderStatus || 'pending';
+            const createdAt = order.createdAt || order.created_at || order.date || new Date();
+            
+            const items = order.items || order.products || [];
+            
+            // Tính tổng tiền từ các items
+            let calculatedTotal = 0;
+            let itemsHtml = '';
+            if (items.length > 0) {
+                itemsHtml = items.map(item => {
+                    const productName = (item.product && item.product.name) || item.name || 'Sản phẩm';
+                    const quantity = item.quantity || 1;
+                    const price = item.price || 0;
+                    const subtotal = price * quantity;
+                    calculatedTotal += subtotal;
+                    return `
+                        <tr>
+                            <td>${productName}</td>
+                            <td style="text-align: center;">${quantity}</td>
+                            <td style="text-align: right;">${formatCurrency(price)}</td>
+                            <td style="text-align: right;"><strong>${formatCurrency(subtotal)}</strong></td>
+                        </tr>
+                    `;
+                }).join('');
+            } else {
+                itemsHtml = '<tr><td colspan="4" style="text-align: center; color: var(--gray-600);">Không có sản phẩm</td></tr>';
+            }
+            
+            // Sử dụng finalAmount (sau khi trừ discount) làm tổng tiền chính
+            const finalAmount = order.finalAmount || order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+            const totalAmount = order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+            const discountAmount = order.discountAmount || 0;
+            const total = finalAmount; // Tổng tiền cuối cùng cần thanh toán
+            
+            const paymentStatusText = paymentStatus === 'paid' || paymentStatus === 'confirmed' ? 'Đã thanh toán' : 
+                                     paymentStatus === 'pending' ? 'Chờ thanh toán' : paymentStatus;
+            
+            const orderStatusText = orderStatus === 'delivered' ? 'Đã nhận hàng' :
+                                   orderStatus === 'shipping' ? 'Đang giao hàng' :
+                                   orderStatus === 'confirmed' ? 'Đã xác nhận' :
+                                   orderStatus === 'pending' ? 'Chờ xử lý' :
+                                   orderStatus === 'cancelled' ? 'Đã hủy' : orderStatus;
+            
+            content.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">Mã đơn: #${orderCode}</h3>
+                    
+                    <div style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h4 style="margin-bottom: 10px;">Thông tin khách hàng</h4>
+                        <p><strong>Tên:</strong> ${customerName}</p>
+                        ${customerEmail ? `<p><strong>Email:</strong> ${customerEmail}</p>` : ''}
+                        ${customerPhone ? `<p><strong>Điện thoại:</strong> ${customerPhone}</p>` : ''}
+                        ${customerAddress ? `<p><strong>Địa chỉ:</strong> ${customerAddress}</p>` : ''}
+                    </div>
+                    
+                    <div style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h4 style="margin-bottom: 10px;">Trạng thái</h4>
+                        <p><strong>Thanh toán:</strong> ${paymentStatusText}</p>
+                        <p><strong>Đơn hàng:</strong> ${orderStatusText}</p>
+                        <p><strong>Ngày tạo:</strong> ${formatDate(createdAt)}</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
+                        <h4 style="margin: 0 0 10px 0; font-size: 16px; opacity: 0.9;">Tổng tiền ${orderStatus === 'pending' ? 'cần xác nhận' : orderStatus === 'confirmed' || orderStatus === 'shipping' ? 'đơn hàng' : 'đơn hàng'}</h4>
+                        ${discountAmount > 0 ? `
+                            <div style="font-size: 18px; opacity: 0.9; text-decoration: line-through; margin-bottom: 5px;">${formatCurrency(totalAmount)}</div>
+                            <div style="font-size: 14px; opacity: 0.9; margin-bottom: 10px;">Giảm: ${formatCurrency(discountAmount)}</div>
+                        ` : ''}
+                        <div style="font-size: 32px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">${formatCurrency(total)}</div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 10px;">Chi tiết sản phẩm</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                        <thead>
+                            <tr style="background: var(--gray-200);">
+                                <th style="padding: 10px; text-align: left;">Sản phẩm</th>
+                                <th style="padding: 10px; text-align: center;">Số lượng</th>
+                                <th style="padding: 10px; text-align: right;">Đơn giá</th>
+                                <th style="padding: 10px; text-align: right;">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsHtml}
+                        </tbody>
+                        <tfoot>
+                            ${discountAmount > 0 ? `
+                            <tr>
+                                <td colspan="3" style="padding: 10px; text-align: right;"><strong>Tạm tính:</strong></td>
+                                <td style="padding: 10px; text-align: right;"><strong>${formatCurrency(totalAmount)}</strong></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding: 10px; text-align: right;"><strong style="color: #10b981;">Giảm giá:</strong></td>
+                                <td style="padding: 10px; text-align: right;"><strong style="color: #10b981;">-${formatCurrency(discountAmount)}</strong></td>
+                            </tr>
+                            ` : ''}
+                            <tr style="border-top: 2px solid var(--gray-300);">
+                                <td colspan="3" style="padding: 10px; text-align: right;"><strong>Tổng cộng:</strong></td>
+                                <td style="padding: 10px; text-align: right;"><strong style="color: var(--primary-color); font-size: 18px;">${formatCurrency(total)}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                        ${orderStatus === 'pending' ? 
+                            `<button onclick="closeOrderDetail(); showConfirmModal('${orderId}');" class="btn btn-primary" style="flex: 1; min-width: 150px;">✅ Xác nhận đơn hàng</button>` : 
+                            ''}
+                        ${orderStatus === 'confirmed' || orderStatus === 'shipping' ? 
+                            `<button onclick="closeOrderDetail(); showCompleteModal('${orderId}');" class="btn" style="flex: 1; min-width: 150px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">🎉 Hoàn thành đơn hàng</button>` : 
+                            ''}
+                        ${orderStatus === 'pending' || orderStatus === 'confirmed' || orderStatus === 'shipping' ? 
+                            `<button onclick="closeOrderDetail(); showCancelModal('${orderId}');" class="btn" style="flex: 1; min-width: 150px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">❌ Hủy đơn hàng</button>` : 
+                            ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function closeOrderDetail() {
+            hideModal('orderDetailModal');
+        }
+        
+        function showConfirmModal(orderId) {
+            currentOrderId = orderId;
+            const info = document.getElementById('confirmOrderInfo');
+            info.innerHTML = 'Đang tải thông tin...';
+            showModal('confirmOrderModal');
+            
+            // Load order info
+            const token = localStorage.getItem('adminToken');
+            fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(async res => {
+                // Kiểm tra Content-Type trước khi parse JSON
+                const contentType = res.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await res.text();
+                    throw new Error('API trả về dữ liệu không hợp lệ. Vui lòng kiểm tra lại API endpoint.');
+                }
+                
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({ error: `Lỗi ${res.status}: ${res.statusText}` }));
+                    throw new Error(errorData.error || `Lỗi ${res.status}`);
+                }
+                
+                return res.json();
+            })
+            .then(order => {
+                const orderCode = order.orderCode || order.code || orderId.substring(0, 8).toUpperCase();
+                const items = order.items || order.products || [];
+                
+                // Tính tổng tiền từ items nếu order.total không có
+                let calculatedTotal = 0;
+                if (items.length > 0) {
+                    items.forEach(item => {
+                        const quantity = item.quantity || 1;
+                        const price = item.price || 0;
+                        calculatedTotal += price * quantity;
+                    });
+                }
+                
+                // Sử dụng finalAmount (sau khi trừ discount) làm tổng tiền chính
+                const finalAmount = order.finalAmount || order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+                const totalAmount = order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+                const discountAmount = order.discountAmount || 0;
+                const total = finalAmount;
+                const customerName = (order.customer && order.customer.name) || order.customerName || 'N/A';
+                
+                info.innerHTML = `
+                    <div style="margin-bottom: 15px;">
+                        <p><strong>Mã đơn:</strong> #${orderCode}</p>
+                        <p><strong>Khách hàng:</strong> ${customerName}</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px;">
+                        <p style="margin: 0 0 10px 0; font-size: 14px; opacity: 0.9;">Số tiền cần xác nhận</p>
+                        ${discountAmount > 0 ? `
+                            <div style="font-size: 14px; opacity: 0.8; text-decoration: line-through; margin-bottom: 5px;">${formatCurrency(totalAmount)}</div>
+                            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 8px;">Giảm: ${formatCurrency(discountAmount)}</div>
+                        ` : ''}
+                        <div style="font-size: 28px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">${formatCurrency(total)}</div>
+                    </div>
+                `;
+            })
+            .catch(err => {
+                console.error('Error loading order:', err);
+                info.innerHTML = `<p style="color: var(--danger-color);">Lỗi: ${err.message || 'Không thể tải thông tin đơn hàng'}</p>`;
+            });
+        }
+        
+        function closeConfirmModal() {
+            hideModal('confirmOrderModal');
+            currentOrderId = null;
+        }
+        
+        async function confirmOrderAction() {
+            if (!currentOrderId) return;
+            
+            const token = localStorage.getItem('adminToken');
+            try {
+                // Sử dụng endpoint /api/orders/:id/confirm để xác nhận đơn hàng
+                const response = await apiCall(`/api/orders/${currentOrderId}/confirm`, {
+                    method: 'PUT'
+                });
+                
+                // Kiểm tra kết quả
+                if (!response.ok) {
+                    const contentType = response?.headers?.get('content-type');
+                    let errorMessage = 'Không thể xác nhận đơn hàng. ';
+                    
+                    if (contentType && contentType.includes('application/json')) {
+                        try {
+                            const data = await response.json();
+                            errorMessage += data.error || `Lỗi ${response.status}`;
+                        } catch (e) {
+                            errorMessage += `Lỗi ${response.status}`;
+                        }
+                    } else {
+                        errorMessage += `Lỗi ${response.status}`;
+                    }
+                    throw new Error(errorMessage);
+                }
+                
+                // Đọc response JSON
+                const result = await response.json();
+                
+                closeConfirmModal();
+                closeOrderDetail(); // Đóng modal chi tiết nếu đang mở
+                showSuccess('✅ Đã xác nhận đơn hàng thành công! Đơn hàng đã được cập nhật trong danh sách.', document.querySelector('.container'));
+                
+                // Reload danh sách để hiển thị trạng thái mới
+                setTimeout(() => {
+                    loadOrders();
+                }, 500);
+            } catch (error) {
+                console.error('Error confirming order:', error);
+                alert('Lỗi: ' + error.message);
+            }
+        }
+        
+        function showCompleteModal(orderId) {
+            currentOrderId = orderId;
+            const info = document.getElementById('completeOrderInfo');
+            info.innerHTML = 'Đang tải thông tin...';
+            showModal('completeOrderModal');
+            
+            // Load order info
+            const token = localStorage.getItem('adminToken');
+            fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(async res => {
+                // Kiểm tra Content-Type trước khi parse JSON
+                const contentType = res.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await res.text();
+                    throw new Error('API trả về dữ liệu không hợp lệ. Vui lòng kiểm tra lại API endpoint.');
+                }
+                
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({ error: `Lỗi ${res.status}: ${res.statusText}` }));
+                    throw new Error(errorData.error || `Lỗi ${res.status}`);
+                }
+                
+                return res.json();
+            })
+            .then(order => {
+                const orderCode = order.orderCode || order.code || orderId.substring(0, 8).toUpperCase();
+                const items = order.items || order.products || [];
+                
+                // Tính tổng tiền từ items nếu order.total không có
+                let calculatedTotal = 0;
+                if (items.length > 0) {
+                    items.forEach(item => {
+                        const quantity = item.quantity || 1;
+                        const price = item.price || 0;
+                        calculatedTotal += price * quantity;
+                    });
+                }
+                
+                // Sử dụng finalAmount (sau khi trừ discount) làm tổng tiền chính
+                const finalAmount = order.finalAmount || order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+                const totalAmount = order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+                const discountAmount = order.discountAmount || 0;
+                const total = finalAmount;
+                const customerName = (order.customer && order.customer.name) || order.customerName || 'N/A';
+                
+                info.innerHTML = `
+                    <div style="margin-bottom: 15px;">
+                        <p><strong>Mã đơn:</strong> #${orderCode}</p>
+                        <p><strong>Khách hàng:</strong> ${customerName}</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px;">
+                        <p style="margin: 0 0 10px 0; font-size: 14px; opacity: 0.9;">Số tiền sẽ được tính vào doanh thu</p>
+                        ${discountAmount > 0 ? `
+                            <div style="font-size: 14px; opacity: 0.8; text-decoration: line-through; margin-bottom: 5px;">${formatCurrency(totalAmount)}</div>
+                            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 8px;">Giảm: ${formatCurrency(discountAmount)}</div>
+                        ` : ''}
+                        <div style="font-size: 28px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">${formatCurrency(total)}</div>
+                    </div>
+                `;
+            })
+            .catch(err => {
+                console.error('Error loading order:', err);
+                info.innerHTML = `<p style="color: var(--danger-color);">Lỗi: ${err.message || 'Không thể tải thông tin đơn hàng'}</p>`;
+            });
+        }
+        
+        function closeCompleteModal() {
+            hideModal('completeOrderModal');
+            currentOrderId = null;
+        }
+        
+        async function completeOrderAction() {
+            if (!currentOrderId) return;
+            
+            const token = localStorage.getItem('adminToken');
+            try {
+                // Sử dụng endpoint /api/orders/:id/complete để hoàn thành đơn hàng
+                const response = await apiCall(`/api/orders/${currentOrderId}/complete`, {
+                    method: 'PUT'
+                });
+                
+                // Kiểm tra kết quả
+                if (!response.ok) {
+                    const contentType = response?.headers?.get('content-type');
+                    let errorMessage = 'Không thể hoàn thành đơn hàng. ';
+                    
+                    if (contentType && contentType.includes('application/json')) {
+                        try {
+                            const data = await response.json();
+                            errorMessage += data.error || `Lỗi ${response.status}`;
+                        } catch (e) {
+                            errorMessage += `Lỗi ${response.status}`;
+                        }
+                    } else {
+                        errorMessage += `Lỗi ${response.status}`;
+                    }
+                    throw new Error(errorMessage);
+                }
+                
+                // Đọc response JSON
+                const result = await response.json();
+                
+                closeCompleteModal();
+                closeOrderDetail(); // Đóng modal chi tiết nếu đang mở
+                showSuccess('🎉 Đã hoàn thành đơn hàng! Đơn hàng đã được tính vào doanh thu.', document.querySelector('.container'));
+                
+                // Reload danh sách để hiển thị trạng thái mới
+                setTimeout(() => {
+                    loadOrders();
+                }, 500);
+            } catch (error) {
+                console.error('Error completing order:', error);
+                alert('Lỗi: ' + error.message);
+            }
+        }
+        
+        function showCancelModal(orderId) {
+            currentOrderId = orderId;
+            const info = document.getElementById('cancelOrderInfo');
+            info.innerHTML = 'Đang tải thông tin...';
+            showModal('cancelOrderModal');
+            
+            // Load order info
+            const token = localStorage.getItem('adminToken');
+            fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(async res => {
+                // Kiểm tra Content-Type trước khi parse JSON
+                const contentType = res.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await res.text();
+                    throw new Error('API trả về dữ liệu không hợp lệ. Vui lòng kiểm tra lại API endpoint.');
+                }
+                
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({ error: `Lỗi ${res.status}: ${res.statusText}` }));
+                    throw new Error(errorData.error || `Lỗi ${res.status}`);
+                }
+                
+                return res.json();
+            })
+            .then(order => {
+                const orderCode = order.orderCode || order.code || orderId.substring(0, 8).toUpperCase();
+                const items = order.items || order.products || [];
+                
+                // Tính tổng tiền từ items nếu order.total không có
+                let calculatedTotal = 0;
+                if (items.length > 0) {
+                    items.forEach(item => {
+                        const quantity = item.quantity || 1;
+                        const price = item.price || 0;
+                        calculatedTotal += price * quantity;
+                    });
+                }
+                
+                // Sử dụng finalAmount (sau khi trừ discount) làm tổng tiền chính
+                const finalAmount = order.finalAmount || order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+                const totalAmount = order.totalAmount || order.total || order.amount || order.price || calculatedTotal;
+                const discountAmount = order.discountAmount || 0;
+                const total = finalAmount;
+                const customerName = (order.customer && order.customer.name) || order.customerName || 'N/A';
+                const orderStatus = order.status || order.orderStatus || 'pending';
+                
+                const statusText = orderStatus === 'pending' ? 'Chờ xử lý' :
+                                  orderStatus === 'confirmed' ? 'Đã xác nhận' :
+                                  orderStatus === 'shipping' ? 'Đang giao hàng' :
+                                  orderStatus;
+                
+                info.innerHTML = `
+                    <div style="margin-bottom: 15px;">
+                        <p><strong>Mã đơn:</strong> #${orderCode}</p>
+                        <p><strong>Khách hàng:</strong> ${customerName}</p>
+                        <p><strong>Trạng thái:</strong> ${statusText}</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px;">
+                        <p style="margin: 0 0 10px 0; font-size: 14px; opacity: 0.9;">Tổng tiền đơn hàng sẽ bị hủy</p>
+                        ${discountAmount > 0 ? `
+                            <div style="font-size: 14px; opacity: 0.8; text-decoration: line-through; margin-bottom: 5px;">${formatCurrency(totalAmount)}</div>
+                            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 8px;">Giảm: ${formatCurrency(discountAmount)}</div>
+                        ` : ''}
+                        <div style="font-size: 28px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">${formatCurrency(total)}</div>
+                    </div>
+                `;
+            })
+            .catch(err => {
+                console.error('Error loading order:', err);
+                info.innerHTML = `<p style="color: var(--danger-color);">Lỗi: ${err.message || 'Không thể tải thông tin đơn hàng'}</p>`;
+            });
+        }
+        
+        function closeCancelModal() {
+            hideModal('cancelOrderModal');
+            currentOrderId = null;
+        }
+        
+        async function cancelOrderAction() {
+            if (!currentOrderId) return;
+            
+            const token = localStorage.getItem('adminToken');
+            try {
+                // Sử dụng endpoint /api/orders/:id/status để hủy đơn hàng
+                const response = await apiCall(`/api/orders/${currentOrderId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: 'cancelled' })
+                });
+                
+                // Kiểm tra kết quả
+                if (!response.ok) {
+                    const contentType = response?.headers?.get('content-type');
+                    let errorMessage = 'Không thể hủy đơn hàng. ';
+                    
+                    if (contentType && contentType.includes('application/json')) {
+                        try {
+                            const data = await response.json();
+                            errorMessage += data.error || `Lỗi ${response.status}`;
+                        } catch (e) {
+                            errorMessage += `Lỗi ${response.status}`;
+                        }
+                    } else {
+                        errorMessage += `Lỗi ${response.status}`;
+                    }
+                    throw new Error(errorMessage);
+                }
+                
+                // Đọc response JSON
+                const result = await response.json();
+                
+                closeCancelModal();
+                closeOrderDetail(); // Đóng modal chi tiết nếu đang mở
+                showSuccess('❌ Đã hủy đơn hàng thành công! Sản phẩm đã được trả lại kho.', document.querySelector('.container'));
+                
+                // Reload danh sách để hiển thị trạng thái mới
+                setTimeout(() => {
+                    loadOrders();
+                }, 500);
+            } catch (error) {
+                console.error('Error canceling order:', error);
+                alert('Lỗi: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
+

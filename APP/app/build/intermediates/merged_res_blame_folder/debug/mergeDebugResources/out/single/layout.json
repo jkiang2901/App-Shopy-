@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-mergeDebugResources-33:\\layout\\activity_customer_checkout.xml",
-        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_customer_checkout.xml"
-    },
-    {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-mergeDebugResources-33:\\layout\\activity_customer_product_detail.xml",
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_customer_product_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-mergeDebugResources-33:\\layout\\activity_customer_checkout.xml",
+        "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_customer_checkout.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-mergeDebugResources-33:\\layout\\activity_main.xml",
@@ -16,8 +16,8 @@
         "source": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-main-36:\\layout\\activity_customer_order_history.xml"
     },
     {
-        "merged": "com.example.banhangapp-mergeDebugResources-33:/layout/activity_login.xml",
-        "source": "com.example.banhangapp-main-36:/layout/activity_login.xml"
+        "merged": "com.example.banhangapp-mergeDebugResources-33:/layout/item_cart.xml",
+        "source": "com.example.banhangapp-main-36:/layout/item_cart.xml"
     },
     {
         "merged": "C:\\Users\\tranh\\.gradle\\daemon\\8.13\\com.example.banhangapp-mergeDebugResources-33:\\layout\\item_order_product.xml",

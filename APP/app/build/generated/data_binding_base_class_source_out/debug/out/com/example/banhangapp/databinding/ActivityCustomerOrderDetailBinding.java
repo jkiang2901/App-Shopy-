@@ -56,12 +56,16 @@ public final class ActivityCustomerOrderDetailBinding implements ViewBinding {
   @NonNull
   public final TextView tvTotalAmount;
 
+  @NonNull
+  public final TextView tvTotalQuantity;
+
   private ActivityCustomerOrderDetailBinding(@NonNull CoordinatorLayout rootView,
       @NonNull LinearLayout layoutDiscount, @NonNull RecyclerView recyclerViewItems,
       @NonNull MaterialToolbar toolbar, @NonNull TextView tvDate,
       @NonNull TextView tvDeliveryAddress, @NonNull TextView tvDiscountAmount,
       @NonNull TextView tvFinalAmount, @NonNull TextView tvOrderId,
-      @NonNull TextView tvPaymentMethod, @NonNull Chip tvStatus, @NonNull TextView tvTotalAmount) {
+      @NonNull TextView tvPaymentMethod, @NonNull Chip tvStatus, @NonNull TextView tvTotalAmount,
+      @NonNull TextView tvTotalQuantity) {
     this.rootView = rootView;
     this.layoutDiscount = layoutDiscount;
     this.recyclerViewItems = recyclerViewItems;
@@ -74,6 +78,7 @@ public final class ActivityCustomerOrderDetailBinding implements ViewBinding {
     this.tvPaymentMethod = tvPaymentMethod;
     this.tvStatus = tvStatus;
     this.tvTotalAmount = tvTotalAmount;
+    this.tvTotalQuantity = tvTotalQuantity;
   }
 
   @Override
@@ -169,9 +174,15 @@ public final class ActivityCustomerOrderDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvTotalQuantity;
+      TextView tvTotalQuantity = ViewBindings.findChildViewById(rootView, id);
+      if (tvTotalQuantity == null) {
+        break missingId;
+      }
+
       return new ActivityCustomerOrderDetailBinding((CoordinatorLayout) rootView, layoutDiscount,
           recyclerViewItems, toolbar, tvDate, tvDeliveryAddress, tvDiscountAmount, tvFinalAmount,
-          tvOrderId, tvPaymentMethod, tvStatus, tvTotalAmount);
+          tvOrderId, tvPaymentMethod, tvStatus, tvTotalAmount, tvTotalQuantity);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

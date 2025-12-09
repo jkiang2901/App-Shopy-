@@ -61,7 +61,8 @@ const API_BASE_URL = 'http://localhost:3000'; // Thay đổi theo server của b
 
 - **Quản lý khách hàng**: Xem, thêm, sửa, xóa khách hàng
 - **Quản lý sản phẩm**: Xem, thêm, sửa, xóa sản phẩm
-- **Theo dõi hoạt động**: Xem và xử lý các báo cáo
+- **Quản lý đơn hàng**: Xem, kiểm tra và xác nhận đơn hàng
+- **Theo dõi doanh thu**: Xem thống kê doanh thu và đơn hàng theo thời gian
 
 ## Lưu ý
 

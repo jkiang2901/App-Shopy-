@@ -40,7 +40,7 @@
                 android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="🔍 Tìm kiếm sản phẩm..."
+                android:hint=" Tìm kiếm sản phẩm..."
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_tertiary"
                 android:textSize="16sp"

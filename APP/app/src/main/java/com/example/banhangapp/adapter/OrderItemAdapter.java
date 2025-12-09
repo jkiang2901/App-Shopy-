@@ -111,7 +111,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
                 }
 
                 if (tvQuantity != null) {
-                    tvQuantity.setText("x" + item.getQuantity());
+                    tvQuantity.setText("Số lượng: x" + item.getQuantity());
                 }
 
                 if (tvSubtotal != null) {

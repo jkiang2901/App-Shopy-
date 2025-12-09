@@ -22,10 +22,10 @@ public final class ItemCartBinding implements ViewBinding {
   private final MaterialCardView rootView;
 
   @NonNull
-  public final MaterialButton btnDecrease;
+  public final TextView btnDecrease;
 
   @NonNull
-  public final MaterialButton btnIncrease;
+  public final TextView btnIncrease;
 
   @NonNull
   public final MaterialButton btnRemove;
@@ -42,8 +42,8 @@ public final class ItemCartBinding implements ViewBinding {
   @NonNull
   public final TextView productQuantity;
 
-  private ItemCartBinding(@NonNull MaterialCardView rootView, @NonNull MaterialButton btnDecrease,
-      @NonNull MaterialButton btnIncrease, @NonNull MaterialButton btnRemove,
+  private ItemCartBinding(@NonNull MaterialCardView rootView, @NonNull TextView btnDecrease,
+      @NonNull TextView btnIncrease, @NonNull MaterialButton btnRemove,
       @NonNull ImageView productImage, @NonNull TextView productName,
       @NonNull TextView productPrice, @NonNull TextView productQuantity) {
     this.rootView = rootView;
@@ -84,13 +84,13 @@ public final class ItemCartBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.btnDecrease;
-      MaterialButton btnDecrease = ViewBindings.findChildViewById(rootView, id);
+      TextView btnDecrease = ViewBindings.findChildViewById(rootView, id);
       if (btnDecrease == null) {
         break missingId;
       }
 
       id = R.id.btnIncrease;
-      MaterialButton btnIncrease = ViewBindings.findChildViewById(rootView, id);
+      TextView btnIncrease = ViewBindings.findChildViewById(rootView, id);
       if (btnIncrease == null) {
         break missingId;
       }

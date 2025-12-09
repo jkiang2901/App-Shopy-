@@ -3020,10 +3020,13 @@ int drawable abc_textfield_search_material 0x7f070075
 int drawable abc_vector_test 0x7f070076
 int drawable avd_hide_password 0x7f070077
 int drawable avd_show_password 0x7f070078
+int drawable bg_quantity_container 0x7f0700e6
 int drawable btn_checkbox_checked_mtrl 0x7f070079
 int drawable btn_checkbox_checked_to_unchecked_mtrl_animation 0x7f07007a
 int drawable btn_checkbox_unchecked_mtrl 0x7f07007b
 int drawable btn_checkbox_unchecked_to_checked_mtrl_animation 0x7f07007c
+int drawable btn_decrease_style 0x7f0700e7
+int drawable btn_increase_style 0x7f0700e8
 int drawable btn_radio_off_mtrl 0x7f07007d
 int drawable btn_radio_off_to_on_mtrl_animation 0x7f07007e
 int drawable btn_radio_on_mtrl 0x7f07007f
@@ -3040,6 +3043,7 @@ int drawable design_snackbar_background 0x7f070089
 int drawable error_image 0x7f07008a
 int drawable gradient_background 0x7f07008b
 int drawable ic_arrow_back_black_24 0x7f07008c
+int drawable ic_cart 0x7f0700e5
 int drawable ic_clear_black_24 0x7f07008d
 int drawable ic_clock_black_24dp 0x7f07008e
 int drawable ic_keyboard_black_24dp 0x7f07008f
@@ -3706,6 +3710,7 @@ int id tvSubtotal 0x7f080272
 int id tvTitle 0x7f08024c
 int id tvTotal 0x7f08024d
 int id tvTotalAmount 0x7f08024e
+int id tvTotalQuantity 0x7f080278
 int id unchecked 0x7f080252
 int id uniform 0x7f080253
 int id unlabeled 0x7f080254
