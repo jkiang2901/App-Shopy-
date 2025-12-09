@@ -24,27 +24,17 @@
         <div class="revenue-controls" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: var(--shadow-md);">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px;">
                 <div class="filter-group">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Chọn ngày:</label>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Từ ngày:</label>
                     <input type="date" id="dayPicker" onchange="loadRevenue()" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
                 </div>
                 <div class="filter-group">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Chọn tháng:</label>
-                    <input type="month" id="monthPicker" onchange="loadRevenue()" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Đến ngày:</label>
+                    <input type="date" id="dayPickerEnd" onchange="loadRevenue()" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
                 </div>
-                <div class="filter-group">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Chọn năm:</label>
-                    <input type="number" id="yearPicker" min="2020" max="2100" onchange="loadRevenue()" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+                <div class="filter-group" style="display: flex; align-items: flex-end; gap: 10px;">
+                    <button onclick="loadRevenue()" class="btn btn-primary" style="flex: 1;">🔄 Tải lại</button>
+                    <button onclick="showAllRevenue()" class="btn btn-secondary" style="flex: 1;">📊 Tất cả</button>
                 </div>
-                <div class="filter-group" style="display: flex; align-items: flex-end;">
-                    <button onclick="loadRevenue()" class="btn btn-primary" style="width: 100%;">🔄 Tải lại</button>
-                </div>
-            </div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button onclick="setRevenuePeriod('day')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📅 Theo ngày</button>
-                <button onclick="setRevenuePeriod('week')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📆 Theo tuần</button>
-                <button onclick="setRevenuePeriod('month')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📅 Theo tháng</button>
-                <button onclick="setRevenuePeriod('year')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📆 Theo năm</button>
-                <button onclick="setRevenuePeriod('all')" class="btn btn-secondary" style="flex: 1; min-width: 120px;">📊 Tất cả</button>
             </div>
         </div>
 
@@ -71,10 +61,11 @@
                         <th>Số đơn hàng</th>
                         <th>Doanh thu</th>
                         <th>Chi tiết</th>
+                        <th>Xóa</th>
                     </tr>
                 </thead>
                 <tbody id="revenueTableBody">
-                    <tr><td colspan="4" class="loading">Đang tải...</td></tr>
+                    <tr><td colspan="5" class="loading">Đang tải...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -91,15 +82,59 @@
         </div>
     </div>
     
+    <!-- Delete Revenue Modal -->
+    <div id="deleteRevenueModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteRevenueModal()">&times;</span>
+            <h2>🗑️ Xóa doanh thu</h2>
+            <div id="deleteRevenueInfo" style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin: 15px 0;"></div>
+            <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <p style="margin: 0; color: #991b1b; font-weight: 600;">⚠️ Cảnh báo:</p>
+                <p style="margin: 5px 0 0 0; color: #7f1d1d;">Xóa doanh thu sẽ:</p>
+                <ul style="margin: 5px 0 0 20px; color: #7f1d1d;">
+                    <li>Hủy tất cả đơn hàng đã hoàn thành trong kỳ đã chọn</li>
+                    <li>Trả lại số lượng sản phẩm vào kho</li>
+                    <li>Không thể hoàn tác hành động này</li>
+                </ul>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeDeleteRevenueModal()" class="btn btn-secondary">Hủy</button>
+                <button type="button" onclick="confirmDeleteRevenue()" class="btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">🗑️ Xác nhận xóa</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Revenue by Date Modal -->
+    <div id="deleteRevenueByDateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteRevenueByDateModal()">&times;</span>
+            <h2>🗑️ Xóa doanh thu theo ngày</h2>
+            <div id="deleteRevenueByDateInfo" style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin: 15px 0;"></div>
+            <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <p style="margin: 0; color: #991b1b; font-weight: 600;">⚠️ Cảnh báo:</p>
+                <p style="margin: 5px 0 0 0; color: #7f1d1d;">Xóa doanh thu sẽ:</p>
+                <ul style="margin: 5px 0 0 20px; color: #7f1d1d;">
+                    <li>Hủy tất cả đơn hàng đã hoàn thành trong ngày này</li>
+                    <li>Trả lại số lượng sản phẩm vào kho</li>
+                    <li>Không thể hoàn tác hành động này</li>
+                </ul>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeDeleteRevenueByDateModal()" class="btn btn-secondary">Hủy</button>
+                <button type="button" onclick="confirmDeleteRevenueByDate()" class="btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">🗑️ Xác nhận xóa</button>
+            </div>
+        </div>
+    </div>
+    
     <script src="admin.js"></script>
     <script>
         checkAuth();
         
-        // Initialize date pickers with current date/month/year
+        // Initialize date pickers with current date
         const now = new Date();
-        document.getElementById('dayPicker').value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-        document.getElementById('monthPicker').value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-        document.getElementById('yearPicker').value = now.getFullYear();
+        const today = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+        document.getElementById('dayPicker').value = today;
+        document.getElementById('dayPickerEnd').value = today;
         
         let currentRevenuePeriod = 'month';
         let ordersByDate = {}; // Store orders grouped by date
@@ -109,22 +144,21 @@
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
         }
         
-        // Set revenue period
+        // Set revenue period (kept for compatibility, but simplified)
         function setRevenuePeriod(period) {
             currentRevenuePeriod = period;
             const now = new Date();
             const dayPicker = document.getElementById('dayPicker');
-            const monthPicker = document.getElementById('monthPicker');
-            const yearPicker = document.getElementById('yearPicker');
+            const dayPickerEnd = document.getElementById('dayPickerEnd');
             
             // Clear all pickers first
             dayPicker.value = '';
-            monthPicker.value = '';
-            yearPicker.value = '';
+            dayPickerEnd.value = '';
             
             if (period === 'day') {
                 const currentDay = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
                 dayPicker.value = currentDay;
+                dayPickerEnd.value = currentDay;
             } else if (period === 'week') {
                 // Set to start of current week (Monday)
                 const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
@@ -133,13 +167,26 @@
                 weekStart.setDate(now.getDate() + diff);
                 const weekStartStr = weekStart.getFullYear() + '-' + String(weekStart.getMonth() + 1).padStart(2, '0') + '-' + String(weekStart.getDate()).padStart(2, '0');
                 dayPicker.value = weekStartStr;
-            } else if (period === 'month') {
-                const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-                monthPicker.value = currentMonth;
-            } else if (period === 'year') {
-                yearPicker.value = now.getFullYear();
+                
+                // Set end date to Sunday (6 days later)
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                const weekEndStr = weekEnd.getFullYear() + '-' + String(weekEnd.getMonth() + 1).padStart(2, '0') + '-' + String(weekEnd.getDate()).padStart(2, '0');
+                dayPickerEnd.value = weekEndStr;
             }
-            // For 'all', all pickers remain empty
+            loadRevenue();
+        }
+        
+        // Show all revenue (clear date filters)
+        function showAllRevenue() {
+            const dayPicker = document.getElementById('dayPicker');
+            const dayPickerEnd = document.getElementById('dayPickerEnd');
+            
+            // Clear all date pickers
+            dayPicker.value = '';
+            dayPickerEnd.value = '';
+            
+            // Load all revenue
             loadRevenue();
         }
         
@@ -154,16 +201,14 @@
             
             const token = localStorage.getItem('adminToken');
             const dayPicker = document.getElementById('dayPicker');
-            const monthPicker = document.getElementById('monthPicker');
-            const yearPicker = document.getElementById('yearPicker');
+            const dayPickerEnd = document.getElementById('dayPickerEnd');
             const params = new URLSearchParams();
             
             if (dayPicker.value) {
                 params.append('day', dayPicker.value);
-            } else if (monthPicker.value) {
-                params.append('month', monthPicker.value);
-            } else if (yearPicker.value) {
-                params.append('year', yearPicker.value);
+                if (dayPickerEnd.value) {
+                    params.append('dayEnd', dayPickerEnd.value);
+                }
             }
             
             try {
@@ -229,48 +274,25 @@
             
             // Get filter values
             const dayPicker = document.getElementById('dayPicker');
-            const monthPicker = document.getElementById('monthPicker');
-            const yearPicker = document.getElementById('yearPicker');
+            const dayPickerEnd = document.getElementById('dayPickerEnd');
             
-            // Filter orders by date range based on selected period
+            // Filter orders by date range
             let filteredOrders = completedOrders;
             
             if (dayPicker.value) {
-                // Check if this is a week filter (when currentRevenuePeriod is 'week')
-                if (currentRevenuePeriod === 'week') {
-                    // Filter by week (Monday to Sunday)
-                    const weekStart = new Date(dayPicker.value);
-                    const weekEnd = new Date(weekStart);
-                    weekEnd.setDate(weekStart.getDate() + 6); // Add 6 days to get Sunday
-                    weekEnd.setHours(23, 59, 59, 999); // End of Sunday
-                    
-                    filteredOrders = completedOrders.filter(order => {
-                        const status = order.status || order.orderStatus || '';
-                        let orderDate;
-                        if (status === 'delivered' && order.updatedAt) {
-                            orderDate = new Date(order.updatedAt);
-                        } else {
-                            orderDate = new Date(order.createdAt || order.date || Date.now());
-                        }
-                        return orderDate >= weekStart && orderDate <= weekEnd;
-                    });
+                const startDate = new Date(dayPicker.value);
+                startDate.setHours(0, 0, 0, 0); // Start of day
+                
+                let endDate;
+                if (dayPickerEnd.value) {
+                    endDate = new Date(dayPickerEnd.value);
+                    endDate.setHours(23, 59, 59, 999); // End of day
                 } else {
-                    // Filter by specific day
-                    const selectedDate = new Date(dayPicker.value);
-                    filteredOrders = completedOrders.filter(order => {
-                        const status = order.status || order.orderStatus || '';
-                        let orderDate;
-                        if (status === 'delivered' && order.updatedAt) {
-                            orderDate = new Date(order.updatedAt);
-                        } else {
-                            orderDate = new Date(order.createdAt || order.date || Date.now());
-                        }
-                        return orderDate.toDateString() === selectedDate.toDateString();
-                    });
+                    // If no end date, use start date as end date (single day)
+                    endDate = new Date(startDate);
+                    endDate.setHours(23, 59, 59, 999);
                 }
-            } else if (monthPicker.value) {
-                // Filter by month
-                const [year, month] = monthPicker.value.split('-');
+                
                 filteredOrders = completedOrders.filter(order => {
                     const status = order.status || order.orderStatus || '';
                     let orderDate;
@@ -279,20 +301,7 @@
                     } else {
                         orderDate = new Date(order.createdAt || order.date || Date.now());
                     }
-                    return orderDate.getFullYear() == year && orderDate.getMonth() + 1 == month;
-                });
-            } else if (yearPicker.value) {
-                // Filter by year
-                const year = yearPicker.value;
-                filteredOrders = completedOrders.filter(order => {
-                    const status = order.status || order.orderStatus || '';
-                    let orderDate;
-                    if (status === 'delivered' && order.updatedAt) {
-                        orderDate = new Date(order.updatedAt);
-                    } else {
-                        orderDate = new Date(order.createdAt || order.date || Date.now());
-                    }
-                    return orderDate.getFullYear() == year;
+                    return orderDate >= startDate && orderDate <= endDate;
                 });
             }
             
@@ -341,48 +350,37 @@
         function displayMockRevenue() {
             const now = new Date();
             const dayPicker = document.getElementById('dayPicker');
-            const monthPicker = document.getElementById('monthPicker');
-            const yearPicker = document.getElementById('yearPicker');
+            const dayPickerEnd = document.getElementById('dayPickerEnd');
             
-            // Generate mock data based on selected period
+            // Generate mock data based on selected date range
             let mockOrders = [];
             let datesToGenerate = [];
             
             if (dayPicker.value) {
-                if (currentRevenuePeriod === 'week') {
-                    // Generate data for entire week (7 days)
-                    const weekStart = new Date(dayPicker.value);
-                    for (let i = 0; i < 7; i++) {
-                        const date = new Date(weekStart);
-                        date.setDate(weekStart.getDate() + i);
-                        datesToGenerate.push(date);
-                    }
+                const startDate = new Date(dayPicker.value);
+                let endDate;
+                
+                if (dayPickerEnd.value) {
+                    endDate = new Date(dayPickerEnd.value);
                 } else {
-                    // Generate data for single day
-                    const selectedDate = new Date(dayPicker.value);
-                    datesToGenerate.push(selectedDate);
+                    // If no end date, use start date as end date (single day)
+                    endDate = new Date(startDate);
                 }
-            } else if (monthPicker.value) {
-                // Generate data for entire month
-                const [year, month] = monthPicker.value.split('-');
-                const daysInMonth = new Date(year, month, 0).getDate();
-                for (let i = 1; i <= daysInMonth; i++) {
-                    datesToGenerate.push(new Date(year, month - 1, i));
-                }
-            } else if (yearPicker.value) {
-                // Generate data for entire year (by month)
-                const year = yearPicker.value;
-                for (let month = 0; month < 12; month++) {
-                    const daysInMonth = new Date(year, month + 1, 0).getDate();
-                    for (let i = 1; i <= daysInMonth; i++) {
-                        datesToGenerate.push(new Date(year, month, i));
-                    }
+                
+                // Generate dates from start to end
+                const currentDate = new Date(startDate);
+                while (currentDate <= endDate) {
+                    datesToGenerate.push(new Date(currentDate));
+                    currentDate.setDate(currentDate.getDate() + 1);
                 }
             } else {
-                // Generate data for current month if no filter
-                const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-                for (let i = 1; i <= daysInMonth; i++) {
-                    datesToGenerate.push(new Date(now.getFullYear(), now.getMonth(), i));
+                // Generate data for last 6 months if no filter (for "Tất cả")
+                for (let monthOffset = 5; monthOffset >= 0; monthOffset--) {
+                    const targetDate = new Date(now.getFullYear(), now.getMonth() - monthOffset, 1);
+                    const daysInMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate();
+                    for (let i = 1; i <= daysInMonth; i++) {
+                        datesToGenerate.push(new Date(targetDate.getFullYear(), targetDate.getMonth(), i));
+                    }
                 }
             }
             
@@ -459,7 +457,7 @@
             });
             
             if (dates.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="empty">Không có dữ liệu</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="empty">Không có dữ liệu</td></tr>';
                 return;
             }
             
@@ -474,6 +472,9 @@
                         </td>
                         <td>
                             <button onclick="viewRevenueDetails('${date}')" class="btn btn-sm btn-secondary">👁️ Xem chi tiết</button>
+                        </td>
+                        <td>
+                            <button onclick="showDeleteRevenueByDateModal('${date}')" class="btn btn-sm" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">🗑️ Xóa</button>
                         </td>
                     </tr>
                 `;
@@ -566,6 +567,205 @@
         // Close revenue details modal
         function closeRevenueDetails() {
             hideModal('revenueDetailsModal');
+        }
+        
+        // Variables for delete operations
+        let currentDeleteDate = null;
+        let currentDeletePeriod = null;
+        
+        // Show delete revenue modal for current filter
+        function showDeleteRevenueModal() {
+            const dayPicker = document.getElementById('dayPicker');
+            const dayPickerEnd = document.getElementById('dayPickerEnd');
+            const info = document.getElementById('deleteRevenueInfo');
+            
+            let periodText = '';
+            let periodType = '';
+            
+            if (dayPicker.value) {
+                const startDate = new Date(dayPicker.value);
+                let endDate;
+                
+                if (dayPickerEnd.value) {
+                    endDate = new Date(dayPickerEnd.value);
+                    periodText = `Từ ${startDate.toLocaleDateString('vi-VN')} đến ${endDate.toLocaleDateString('vi-VN')}`;
+                    periodType = 'range';
+                } else {
+                    periodText = `Ngày ${startDate.toLocaleDateString('vi-VN')}`;
+                    periodType = 'day';
+                }
+                currentDeletePeriod = { type: periodType, value: dayPicker.value, valueEnd: dayPickerEnd.value };
+            } else {
+                periodText = 'Tất cả doanh thu';
+                periodType = 'all';
+                currentDeletePeriod = { type: periodType, value: null };
+            }
+            
+            // Calculate total orders and revenue for this period
+            const totalOrders = document.getElementById('totalOrders').textContent;
+            const totalRevenue = document.getElementById('totalRevenue').textContent;
+            
+            info.innerHTML = `
+                <p style="margin: 0 0 10px 0; font-weight: 600; color: var(--gray-700);">Kỳ: ${periodText}</p>
+                <p style="margin: 5px 0; color: var(--gray-600);">Tổng đơn hàng: <strong>${totalOrders}</strong></p>
+                <p style="margin: 5px 0; color: var(--gray-600);">Tổng doanh thu: <strong style="color: #10b981;">${totalRevenue}</strong></p>
+            `;
+            
+            showModal('deleteRevenueModal');
+        }
+        
+        // Close delete revenue modal
+        function closeDeleteRevenueModal() {
+            hideModal('deleteRevenueModal');
+            currentDeletePeriod = null;
+        }
+        
+        // Confirm delete revenue for current filter
+        async function confirmDeleteRevenue() {
+            if (!currentDeletePeriod) return;
+            
+            try {
+                const token = localStorage.getItem('adminToken');
+                const orders = [];
+                
+                // Get all orders for the period
+                if (currentDeletePeriod.type === 'day' || currentDeletePeriod.type === 'range') {
+                    const dayPicker = document.getElementById('dayPicker');
+                    const dayPickerEnd = document.getElementById('dayPickerEnd');
+                    let url = `/api/orders?day=${dayPicker.value}`;
+                    if (dayPickerEnd.value) {
+                        url += `&dayEnd=${dayPickerEnd.value}`;
+                    }
+                    const response = await apiCall(url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const allOrders = Array.isArray(data) ? data : (data.orders || data.data || []);
+                        orders.push(...allOrders.filter(o => (o.status || o.orderStatus) === 'delivered'));
+                    }
+                } else {
+                    // All orders
+                    const response = await apiCall('/api/orders');
+                    if (response.ok) {
+                        const data = await response.json();
+                        const allOrders = Array.isArray(data) ? data : (data.orders || data.data || []);
+                        orders.push(...allOrders.filter(o => (o.status || o.orderStatus) === 'delivered'));
+                    }
+                }
+                
+                // Delete/cancel all delivered orders
+                let successCount = 0;
+                let errorCount = 0;
+                
+                for (const order of orders) {
+                    const orderId = order._id || order.id;
+                    if (!orderId) continue;
+                    
+                    try {
+                        // Try to cancel the order (change status to cancelled)
+                        const response = await apiCall(`/api/orders/${orderId}/status`, {
+                            method: 'PUT',
+                            body: JSON.stringify({ status: 'cancelled' })
+                        });
+                        
+                        if (response.ok) {
+                            successCount++;
+                        } else {
+                            errorCount++;
+                        }
+                    } catch (error) {
+                        errorCount++;
+                    }
+                }
+                
+                closeDeleteRevenueModal();
+                
+                if (successCount > 0) {
+                    showSuccess(`✅ Đã xóa ${successCount} đơn hàng thành công!${errorCount > 0 ? ` (${errorCount} lỗi)` : ''}`, document.querySelector('.container'));
+                    setTimeout(() => {
+                        loadRevenue();
+                    }, 500);
+                } else {
+                    alert(`Không thể xóa đơn hàng. ${errorCount > 0 ? `Có ${errorCount} lỗi xảy ra.` : 'Không tìm thấy đơn hàng nào.'}`);
+                }
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
+        }
+        
+        // Show delete revenue by date modal
+        function showDeleteRevenueByDateModal(date) {
+            currentDeleteDate = date;
+            const info = document.getElementById('deleteRevenueByDateInfo');
+            const orders = ordersByDate[date] || [];
+            const totalRevenue = orders.reduce((sum, order) => {
+                return sum + (order.finalAmount || order.totalAmount || order.total || order.amount || order.price || 0);
+            }, 0);
+            
+            info.innerHTML = `
+                <p style="margin: 0 0 10px 0; font-weight: 600; color: var(--gray-700);">Ngày: ${date}</p>
+                <p style="margin: 5px 0; color: var(--gray-600);">Số đơn hàng: <strong>${orders.length}</strong></p>
+                <p style="margin: 5px 0; color: var(--gray-600);">Tổng doanh thu: <strong style="color: #10b981;">${formatCurrency(totalRevenue)}</strong></p>
+            `;
+            
+            showModal('deleteRevenueByDateModal');
+        }
+        
+        // Close delete revenue by date modal
+        function closeDeleteRevenueByDateModal() {
+            hideModal('deleteRevenueByDateModal');
+            currentDeleteDate = null;
+        }
+        
+        // Confirm delete revenue by date
+        async function confirmDeleteRevenueByDate() {
+            if (!currentDeleteDate) return;
+            
+            try {
+                const orders = ordersByDate[currentDeleteDate] || [];
+                
+                if (orders.length === 0) {
+                    alert('Không có đơn hàng nào để xóa.');
+                    closeDeleteRevenueByDateModal();
+                    return;
+                }
+                
+                let successCount = 0;
+                let errorCount = 0;
+                
+                for (const order of orders) {
+                    const orderId = order._id || order.id;
+                    if (!orderId) continue;
+                    
+                    try {
+                        // Try to cancel the order (change status to cancelled)
+                        const response = await apiCall(`/api/orders/${orderId}/status`, {
+                            method: 'PUT',
+                            body: JSON.stringify({ status: 'cancelled' })
+                        });
+                        
+                        if (response.ok) {
+                            successCount++;
+                        } else {
+                            errorCount++;
+                        }
+                    } catch (error) {
+                        errorCount++;
+                    }
+                }
+                
+                closeDeleteRevenueByDateModal();
+                
+                if (successCount > 0) {
+                    showSuccess(`✅ Đã xóa ${successCount} đơn hàng thành công!${errorCount > 0 ? ` (${errorCount} lỗi)` : ''}`, document.querySelector('.container'));
+                    setTimeout(() => {
+                        loadRevenue();
+                    }, 500);
+                } else {
+                    alert(`Không thể xóa đơn hàng. ${errorCount > 0 ? `Có ${errorCount} lỗi xảy ra.` : ''}`);
+                }
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
         }
         
         // Load revenue on page load
